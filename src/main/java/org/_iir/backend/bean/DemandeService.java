@@ -6,23 +6,29 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+import java.util.List;
+
 @Entity
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Data
-public class Offre {
+public class DemandeService {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private int id;
 
+    private String service;
     private String description;
-    private Double tarif;
-    private DisponibiliteStatus disponibilite;
+    private String lieu;
+    private Date datesDisponibles;
 
     @ManyToOne
+    @JoinColumn(name = "demandeur_id")
     private Demandeur demandeur;
 
-    @ManyToOne
-    private Prestataire prestataire;
+    @OneToMany(mappedBy = "demandeService")
+    private List<Proposition> propositions;
+
 }
