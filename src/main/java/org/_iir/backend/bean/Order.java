@@ -2,6 +2,8 @@ package org._iir.backend.bean;
 
 import jakarta.persistence.*;
 
+import java.util.Date;
+
 @Entity
 public class Order {
     @Id
@@ -14,7 +16,7 @@ public class Order {
     @ManyToOne
     private Demandeservice demandeService;
 
-    private String dateConfirmation;
+    private Date dateConfirmation;
     private String statut;
 
     public int getId() {
@@ -41,11 +43,11 @@ public class Order {
         this.demandeService = demandeService;
     }
 
-    public String getDateConfirmation() {
+    public Date getDateConfirmation() {
         return dateConfirmation;
     }
 
-    public void setDateConfirmation(String dateConfirmation) {
+    public void setDateConfirmation(Date dateConfirmation) {
         this.dateConfirmation = dateConfirmation;
     }
 

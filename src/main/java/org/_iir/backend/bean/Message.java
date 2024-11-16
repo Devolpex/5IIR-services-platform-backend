@@ -2,6 +2,8 @@ package org._iir.backend.bean;
 
 import jakarta.persistence.*;
 
+import java.util.Date;
+
 @Entity
 public class Message {
     @Id
@@ -15,7 +17,7 @@ public class Message {
     private User destinataire;
 
     private String contenu;
-    private String dateEnvoi;
+    private Date dateEnvoi;
 
     public int getId() {
         return id;
@@ -49,11 +51,11 @@ public class Message {
         this.contenu = contenu;
     }
 
-    public String getDateEnvoi() {
+    public Date getDateEnvoi() {
         return dateEnvoi;
     }
 
-    public void setDateEnvoi(String dateEnvoi) {
+    public void setDateEnvoi(Date dateEnvoi) {
         this.dateEnvoi = dateEnvoi;
     }
 }

@@ -2,6 +2,8 @@ package org._iir.backend.bean;
 
 import jakarta.persistence.*;
 
+import java.util.Date;
+
 @Entity
 public class Probleme {
     @Id
@@ -9,7 +11,7 @@ public class Probleme {
     private int id;
 
     private String description;
-    private String dateSignalement;
+    private Date dateSignalement;
 
     @ManyToOne
     private User utilisateurSignale;
@@ -30,11 +32,11 @@ public class Probleme {
         this.description = description;
     }
 
-    public String getDateSignalement() {
+    public Date getDateSignalement() {
         return dateSignalement;
     }
 
-    public void setDateSignalement(String dateSignalement) {
+    public void setDateSignalement(Date dateSignalement) {
         this.dateSignalement = dateSignalement;
     }
 
