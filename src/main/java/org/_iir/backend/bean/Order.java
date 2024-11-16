@@ -1,61 +1,30 @@
 package org._iir.backend.bean;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
+@Builder
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @ManyToOne
     private Service service;
 
     @ManyToOne
-    private Demandeservice demandeService;
+    private DemandeService demandeService;
 
     private Date dateConfirmation;
     private String statut;
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public Service getService() {
-        return service;
-    }
-
-    public void setService(Service service) {
-        this.service = service;
-    }
-
-    public Demandeservice getDemandeService() {
-        return demandeService;
-    }
-
-    public void setDemandeService(Demandeservice demandeService) {
-        this.demandeService = demandeService;
-    }
-
-    public Date getDateConfirmation() {
-        return dateConfirmation;
-    }
-
-    public void setDateConfirmation(Date dateConfirmation) {
-        this.dateConfirmation = dateConfirmation;
-    }
-
-    public String getStatut() {
-        return statut;
-    }
-
-    public void setStatut(String statut) {
-        this.statut = statut;
-    }
 }

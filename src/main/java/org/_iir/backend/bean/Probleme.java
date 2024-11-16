@@ -1,14 +1,22 @@
 package org._iir.backend.bean;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@Data
 public class Probleme {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     private String description;
     private Date dateSignalement;
@@ -16,35 +24,4 @@ public class Probleme {
     @ManyToOne
     private User utilisateurSignale;
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Date getDateSignalement() {
-        return dateSignalement;
-    }
-
-    public void setDateSignalement(Date dateSignalement) {
-        this.dateSignalement = dateSignalement;
-    }
-
-    public User getUtilisateurSignale() {
-        return utilisateurSignale;
-    }
-
-    public void setUtilisateurSignale(User utilisateurSignale) {
-        this.utilisateurSignale = utilisateurSignale;
-    }
 }
