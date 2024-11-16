@@ -1,4 +1,7 @@
 package org._iir.backend.dao;
 
-public interface OrderDao {
+import org._iir.backend.bean.Order;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface OrderDao extends JpaRepository<Order, Integer> {
 }
