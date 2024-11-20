@@ -1,0 +1,19 @@
+name: ikramflutter
+description: A new Flutter project.
+
+publish_to: "none" # Indicates that this package is not published to pub.dev.
+
+environment:
+  sdk: ">=2.18.6 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  http: ^1.2.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
