@@ -61,6 +61,19 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.mapstruct</groupId>
+			<artifactId>mapstruct</artifactId>
+			<version>1.5.5.Final</version> <!-- Vérifiez que cette version est compatible -->
+		</dependency>
+
+		<!-- MapStruct Annotation Processor -->
+		<dependency>
+			<groupId>org.mapstruct</groupId>
+			<artifactId>mapstruct-processor</artifactId>
+			<version>1.5.5.Final</version>
+			<scope>provided</scope>
+		</dependency>
 		<!-- Spring WebSocket -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

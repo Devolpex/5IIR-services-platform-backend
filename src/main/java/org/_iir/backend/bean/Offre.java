@@ -7,17 +7,29 @@ public class Offre {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @ManyToOne
+    @JoinColumn(name = "demande_service_id")
+    private Demandeservice demandeService;
+
+    public Demandeservice getDemandeService() {
+        return demandeService;
+    }
+
+    public void setDemandeService(Demandeservice demandeService) {
+        this.demandeService = demandeService;
+    }
 
     private String description;
     private float tarif;
     private String disponibilite;
 
     @ManyToOne
-    private Demandeur demandeur;
-
-    @ManyToOne
     private Prestataire prestataire;
 
+    @ManyToOne
+    private Demandeur demandeur;
+
+    // Getters et Setters
     public int getId() {
         return id;
     }
@@ -50,19 +62,19 @@ public class Offre {
         this.disponibilite = disponibilite;
     }
 
-    public Demandeur getDemandeur() {
-        return demandeur;
-    }
-
-    public void setDemandeur(Demandeur demandeur) {
-        this.demandeur = demandeur;
-    }
-
     public Prestataire getPrestataire() {
         return prestataire;
     }
 
     public void setPrestataire(Prestataire prestataire) {
         this.prestataire = prestataire;
+    }
+
+    public Demandeur getDemandeur() {
+        return demandeur;
+    }
+
+    public void setDemandeur(Demandeur demandeur) {
+        this.demandeur = demandeur;
     }
 }

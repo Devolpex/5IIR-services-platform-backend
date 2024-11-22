@@ -3,6 +3,7 @@ package org._iir.backend.bean;
 import jakarta.persistence.*;
 
 import java.util.Date;
+@Table(name = "orders_table")
 
 @Entity
 public class Order {
