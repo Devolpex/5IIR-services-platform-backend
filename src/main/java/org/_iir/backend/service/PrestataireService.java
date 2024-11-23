@@ -1,4 +1,4 @@
 package org._iir.backend.service;
 
-public interface PrestataireService {
+public class PrestataireService {
 }
