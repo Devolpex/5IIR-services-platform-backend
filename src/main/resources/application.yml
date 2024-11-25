@@ -2,16 +2,28 @@ spring:
   application:
     name: service-platform
   datasource:
-    url: jdbc:mysql://database-service.chqmykiua4ev.eu-west-3.rds.amazonaws.com:3306/servicedb
-    username: admin
-    password: mypassword
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mariadb://localhost:3306/service_platform
+    username: root
+    password:
+    driver-class-name: org.mariadb.jdbc.Driver
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
-
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: devolpex@gmail.com
+    password: jqxpocbfpqtietqq
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 server:
   port: 8081
+
+
