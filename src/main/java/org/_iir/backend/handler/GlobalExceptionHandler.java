@@ -1,9 +1,12 @@
 package org._iir.backend.handler;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.http.ResponseEntity;
+import org._iir.backend.exception.MyAuthException;
 import org._iir.backend.exception.OwnNotSaveException;
+import org._iir.backend.handler.errors.MyErrRes;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -39,17 +42,10 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ex.getResponse());
     }
 
-    // // Handle OwnNotFoundException
-    // @ExceptionHandler(OwnNotFoundException.class)
-    // @ResponseStatus(HttpStatus.NOT_FOUND)
-    // public ResponseEntity<OwnErrorResponse> handleOwnNotFoundException(OwnNotFoundException ex) {
-    //     return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getResponse());
-    // }
-
-    // // Handle OwnNotDeleteException
-    // @ExceptionHandler(OwnNotDeleteException.class)
-    // @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    // public ResponseEntity<OwnErrorResponse> handleOwnNotDeleteException(OwnNotDeleteException ex) {
-    //     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ex.getResponse());
-    // }
+    // Handle MyAuthException
+    @ExceptionHandler(MyAuthException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ResponseEntity<MyErrRes> handleMyAuthException(MyAuthException ex) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.getResponse());
+    }
 }

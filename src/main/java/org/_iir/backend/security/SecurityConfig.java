@@ -1,65 +1,60 @@
 package org._iir.backend.security;
+
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
-import org.springframework.security.web.SecurityFilterChain;
 
-@Configuration
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
 @EnableWebSecurity
-@EnableMethodSecurity
+@Configuration
+@RequiredArgsConstructor
 public class SecurityConfig {
 
-    private static final String ADMIN = "ADMIN";
-    private static final String USER = "USER";
+    private final JwtFilter jwtFilter;
+    private final CustomUserDetailsService userDetailsService;
+    private final AuthEntryPointJwt unauthorizedHandler;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf(AbstractHttpConfigurer::disable);
+        http.csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(authorizeRequests -> authorizeRequests
+                        .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
+                        .anyRequest().authenticated())
+                .sessionManagement(
+                        sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
-        http.authorizeHttpRequests(request -> request
-                // Public endpoints
-                .requestMatchers("/api/**").permitAll()
-
-                // Other endpoints require authentication
-                .anyRequest().authenticated());
-
-        // Set session management to stateless
-        // http.sessionManagement(
-        //         sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-
+        // Handle unauthorized requests
+        http.exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler));
         return http.build();
     }
 
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
     @Bean
-    public InMemoryUserDetailsManager userDetailsService() {
-        // Define in-memory users with roles
-        UserDetails admin = User.builder()
-                .username("admin")
-                .password("{noop}admin123") // No password encoder, using plain text
-                .authorities(ADMIN)
-                .build();
-
-        UserDetails user = User.builder()
-                .username("demandeur@example.com")
-                .password("{noop}securepassword123") // No password encoder, using plain text
-                .authorities(USER)
-                .build();
-
-        return new InMemoryUserDetailsManager(admin, user);
+    public AuthenticationProvider authenticationProvider() {
+        return new CustomAuthProvider(userDetailsService, passwordEncoder());
     }
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+
         return config.getAuthenticationManager();
     }
 }
