@@ -14,5 +14,4 @@ import lombok.NoArgsConstructor;
 public class OwnErrorResponse {
         private String message;
         private List<OwnError> errors;
-
 }
