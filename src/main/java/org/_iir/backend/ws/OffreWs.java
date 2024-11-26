@@ -8,7 +8,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+
 @RequestMapping("/api/offres")
+@CrossOrigin(origins = "http://localhost:4200") // Autorise Angular uniquement
+
 public class OffreWs {
 
     @Autowired
