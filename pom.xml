@@ -148,6 +148,11 @@
 			<artifactId>mockito-junit-jupiter</artifactId>
 			<version>4.6.1</version>
 		</dependency>
+		<!-- Thmeleaf -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>

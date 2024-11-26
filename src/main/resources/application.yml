@@ -2,9 +2,9 @@ spring:
   application:
     name: service-platform
   datasource:
-    url: jdbc:mysql://database-service.chqmykiua4ev.eu-west-3.rds.amazonaws.com:3306/servicedb
+    url: jdbc:mysql://localhost:3307/services_platform_db
     username: admin
-    password: mypassword
+    password: password
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
@@ -13,9 +13,23 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
 
+  mail:
+    host: localhost
+    port: 1025
+    username: 
+    password: 
+    properties:
+      mail:
+        smtp:
+          trust: "*"
+        auth: true
+        starttls:
+          enabled: true
+        connectiontimeout: 5000
+        timeout: 3000
+        writetimeout: 5000
 server:
   port: 8081
-logging:
-  level:
-    org.springframework.security: DEBUG
-    org.springframework.web: DEBUG
+
+cors:
+  allowed-origin: http://localhost:4200

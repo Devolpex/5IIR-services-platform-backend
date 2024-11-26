@@ -22,11 +22,11 @@ import java.util.List;
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    protected Long id;
 
-    private String nom;
-    private String email;
-    private String password;
+    protected String nom;
+    protected String email;
+    protected String password;
 
     @Enumerated(EnumType.STRING)
     private Role role;
