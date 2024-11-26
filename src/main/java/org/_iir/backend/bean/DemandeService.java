@@ -23,6 +23,7 @@ public class DemandeService {
     private String service;
     private String description;
     private String lieu;
+    @Temporal(TemporalType.DATE)
     private Date dateDisponible;
 
     @ManyToOne

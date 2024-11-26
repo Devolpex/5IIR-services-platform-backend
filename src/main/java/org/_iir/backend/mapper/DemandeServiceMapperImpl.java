@@ -22,9 +22,11 @@ public class DemandeServiceMapperImpl implements IMapper<DemandeService, Demande
     @Override
     public DemandeServiceDTO toDTO(DemandeService entity) {
         return DemandeServiceDTO.builder()
+                .id(entity.getId())
                 .service(entity.getService())
                 .description(entity.getDescription())
                 .dateDisponible(entity.getDateDisponible())
+                .lieu(entity.getLieu())
                 .demandeur(DemandeurDTO.builder()
                         .id(entity.getDemandeur().getId())
                         .name(entity.getDemandeur().getNom())

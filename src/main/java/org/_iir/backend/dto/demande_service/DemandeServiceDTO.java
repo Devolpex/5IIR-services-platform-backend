@@ -18,6 +18,7 @@ public class DemandeServiceDTO {
     private String service;
     private String description;
     private Date dateDisponible;
+    private String lieu;
     private DemandeurDTO demandeur;
 
     private LocalDateTime createdAt;

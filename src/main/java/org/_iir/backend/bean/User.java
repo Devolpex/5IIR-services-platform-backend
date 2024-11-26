@@ -15,10 +15,10 @@ import lombok.experimental.SuperBuilder;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    protected Long id;
 
-    private String nom;
-    private String email;
-    private String password;
+    protected String nom;
+    protected String email;
+    protected String password;
 
 }

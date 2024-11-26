@@ -16,16 +16,12 @@ public class GlobalExceptionHandler {
     // Handle validation errors
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<OwnErrorResponse> handleValidationExceptions(MethodArgumentNotValidException ex) {
+    public ResponseEntity<List<OwnError>> handleValidationExceptions(MethodArgumentNotValidException ex) {
         List<OwnError> errors = ex.getBindingResult().getFieldErrors().stream()
                 .map(this::mapFieldError)
                 .collect(Collectors.toList());
 
-        OwnErrorResponse errorResponse = OwnErrorResponse.builder()
-                .errors(errors)
-                .build();
-
-        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 
     // Helper method to map field errors
