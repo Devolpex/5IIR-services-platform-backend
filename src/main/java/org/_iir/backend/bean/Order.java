@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+@Table(name = "orders_table")
 
 @Entity
 @AllArgsConstructor
