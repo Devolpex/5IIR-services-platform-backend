@@ -1,4 +1,4 @@
-package org._iir.backend.security.auth;
+package org._iir.backend.modules.auth;
 
 import org._iir.backend.modules.user.Role;
 

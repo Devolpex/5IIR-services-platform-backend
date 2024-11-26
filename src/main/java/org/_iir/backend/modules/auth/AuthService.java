@@ -1,4 +1,4 @@
-package org._iir.backend.security.auth;
+package org._iir.backend.modules.auth;
 
 import lombok.RequiredArgsConstructor;
 import org._iir.backend.modules.user.User;

@@ -6,18 +6,14 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor; // For @RequiredArgsConstructor
 import org.springframework.stereotype.Component; // For @Component
 import org.springframework.web.filter.OncePerRequestFilter; // Base class for the filter
-import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse; // For HTTP servlet responses
+
 import java.io.IOException; // For handling IO exceptions
-import org.springframework.security.core.userdetails.UserDetailsService; // Interface for user details service
 import org.springframework.security.core.userdetails.UserDetails; // Interface for user details
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken; // For authentication tokens
 import org.springframework.security.core.context.SecurityContextHolder; // To manage the SecurityContext
-import org.springframework.security.core.userdetails.UserDetails; // Interface for user details
-import org.springframework.security.core.userdetails.UserDetailsService; // Interface for user details service
+
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource; // For authentication details
 
 @Component

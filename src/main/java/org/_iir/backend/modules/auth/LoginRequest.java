@@ -1,8 +1,7 @@
-package org._iir.backend.security.auth;
+package org._iir.backend.modules.auth;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
-import lombok.Data;
 
 @Builder
 public record LoginRequest(
