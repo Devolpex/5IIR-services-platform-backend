@@ -1,4 +1,4 @@
-package org._iir.backend.bean;
+package org._iir.backend.modules.order;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -7,23 +7,25 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+@Table(name = "orders_table")
 
 @Entity
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Data
 @Builder
-public class Message {
+public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    private User expediteur;
+    private Service service;
 
     @ManyToOne
-    private User destinataire;
+    // private Demande demande;
 
-    private String contenu;
-    private Date dateEnvoi;
+    private Date dateConfirmation;
+    private String statut;
+
 }

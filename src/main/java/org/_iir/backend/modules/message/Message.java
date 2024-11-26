@@ -1,4 +1,4 @@
-package org._iir.backend.bean;
+package org._iir.backend.modules.message;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -6,23 +6,26 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
+import org._iir.backend.bean.User;
+
 @Entity
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Data
-public class Evaluation {
+public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-
-    private Integer note;
-    private String commentaire;
+    private Long id;
 
     @ManyToOne
-    private Prestataire prestataire;
+    private User expediteur;
 
     @ManyToOne
-    private Demandeur demandeur;
-  
+    private User destinataire;
+
+    private String contenu;
+    private Date dateEnvoi;
 }
