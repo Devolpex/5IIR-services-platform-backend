@@ -6,7 +6,7 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface OffreMapper {
 
-    @Mapping(target = "prestataireId", source = "prestataire.id")
+    @Mapping(source = "prestataire.id", target = "prestataireId")
     OffreDTO toDTO(Offre offre);
 
     @Mapping(target = "prestataire", ignore = true)
