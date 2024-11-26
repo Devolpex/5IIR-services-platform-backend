@@ -27,7 +27,7 @@ public class AccountVerificationEmailContext extends AbsractEmailContext {
 
     public void buildVerificationUrl(final String baseUrl, final String verifyToken) {
         final String url = UriComponentsBuilder.fromHttpUrl(baseUrl)
-                .path("/user/verify-account")
+                .path("/registration/verify")
                 .queryParam("token", verifyToken)
                 .toUriString();
         put("verificationURL", url); // Save the URL in the context for the template

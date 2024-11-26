@@ -18,7 +18,7 @@ public class SecurityConfig {
         return http
                 .csrf(csrf -> csrf.disable()) // Disable CSRF for stateless APIs
                 .authorizeRequests(auth -> auth
-                        .requestMatchers("/api/users/register").permitAll() // Allow access
+                        .requestMatchers("/api/users/register", "/registration/verify").permitAll() // Allow access
                         .anyRequest().authenticated()
                 )
                 .build();

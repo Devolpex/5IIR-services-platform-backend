@@ -2,13 +2,13 @@ spring:
   application:
     name: service-platform
   datasource:
-    url: jdbc:mariadb://localhost:3306/service_platform
-    username: root
-    password:
-    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mysql://localhost:3307/services_platform_db
+    username: admin
+    password: password
+    driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect

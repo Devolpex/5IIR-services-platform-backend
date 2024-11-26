@@ -1,10 +1,13 @@
 package org._iir.backend.service;
 
+import ch.qos.logback.core.util.StringUtil;
 import jakarta.mail.MessagingException;
 import org._iir.backend.bean.SecureToken;
 import org._iir.backend.bean.User;
 import org._iir.backend.dao.UserDao;
+import org._iir.backend.exception.InvalidTokenException;
 import org._iir.backend.exception.UserAleradyExistException;
+import org._iir.backend.http.RegistrationRequest;
 import org._iir.backend.mail.AccountVerificationEmailContext;
 import org._iir.backend.mail.EmailService;
 import org._iir.backend.mail.SecureTokenService;
@@ -14,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class UserService {
@@ -48,16 +52,22 @@ public class UserService {
         userDao.deleteById(id);
     }
 
-    public void register(User user)throws UserAleradyExistException {
+    public void register(RegistrationRequest request)throws UserAleradyExistException {
 
-        if(isUserExist(user.getEmail())){
+        if(isUserExist(request.email())){
             throw new UserAleradyExistException("User already exist");
         }
+        User user = new User();
+        user.setNom(request.nom());
+        user.setEmail(request.email());
+        user.setRole(request.role());
+        user.setAccountVerified(false);  // Assuming account is not verified initially
+        user.setPassword(passwordEncoder.encode(request.password()));  // Hashing the password
 
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userDao.save(user);
-        sendRegistrationEmail(user);
+        userDao.save(user);  // Save user to the database
+        sendRegistrationEmail(user);  // Send a registration confirmation email (if required)
     }
+
 
     public boolean isUserExist(String email){
         return userDao.findByEmail(email).isPresent();
@@ -79,6 +89,22 @@ public class UserService {
         } catch (MessagingException e) {
             e.printStackTrace();
         }
+    }
+
+    public boolean verifyAccount(String token) throws InvalidTokenException {
+        SecureToken secureToken = secureTokenService.findByToken(token);
+        if(Objects.isNull(secureToken)||secureToken.isExpired()){
+            throw new InvalidTokenException("Invalid or expired token");
+        }
+        User user = userDao.getById(Math.toIntExact(secureToken.getUser().getId()));
+       if (Objects.isNull(user)){
+           throw new InvalidTokenException("User not found");
+
+       }
+       user.setAccountVerified(true);
+         userDao.save(user);
+            secureTokenService.removeToken(token);
+            return true;
     }
 
 
