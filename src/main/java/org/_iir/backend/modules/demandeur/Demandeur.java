@@ -1,4 +1,4 @@
-package org._iir.backend.bean;
+package org._iir.backend.modules.demandeur;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -9,6 +9,10 @@ import lombok.experimental.SuperBuilder;
 
 import java.util.List;
 
+import org._iir.backend.modules.demande.Demande;
+import org._iir.backend.modules.offre.Offre;
+import org._iir.backend.modules.user.User;
+
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,7 +21,7 @@ import java.util.List;
 @SuperBuilder
 public class Demandeur extends User {
     @OneToMany(mappedBy = "demandeur")
-    private List<DemandeService> demandes;
+    private List<Demande> demandes;
 
     @OneToMany(mappedBy = "demandeur")
     private List<Offre> offres;

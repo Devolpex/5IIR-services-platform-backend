@@ -1,4 +1,4 @@
-package org._iir.backend.bean;
+package org._iir.backend.modules.prestataire;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -8,6 +8,11 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.util.List;
+
+import org._iir.backend.modules.offre.Offre;
+import org._iir.backend.modules.proposition.Proposition;
+import org._iir.backend.modules.service.Service;
+import org._iir.backend.modules.user.User;
 
 @Entity
 @AllArgsConstructor

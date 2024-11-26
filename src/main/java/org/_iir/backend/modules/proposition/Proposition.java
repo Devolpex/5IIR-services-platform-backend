@@ -1,4 +1,7 @@
-package org._iir.backend.bean;
+package org._iir.backend.modules.proposition;
+
+import org._iir.backend.modules.demande.Demande;
+import org._iir.backend.modules.prestataire.Prestataire;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -20,7 +23,7 @@ public class Proposition {
     private String disponibiliteProposee;
 
     @ManyToOne
-    private DemandeService demandeService;
+    private Demande demande;
 
     @ManyToOne
     private Prestataire prestataire;

@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
-import org._iir.backend.bean.User;
+import org._iir.backend.modules.user.User;
 
 @Entity
 @Data

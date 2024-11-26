@@ -1,18 +1,15 @@
-package org._iir.backend.ws;
-
-import org._iir.backend.dto.OffreDTO;
-import org._iir.backend.service.OffreService;
+package org._iir.backend.modules.offre;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
 @RestController
-
 @RequestMapping("/api/offres")
-@CrossOrigin(origins = "http://localhost:4200") // Autorise Angular uniquement
-
-public class OffreWs {
+@RequiredArgsConstructor
+public class OffreController {
 
     @Autowired
     private OffreService offreService;

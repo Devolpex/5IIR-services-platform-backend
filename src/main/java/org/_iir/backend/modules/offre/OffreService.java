@@ -1,10 +1,6 @@
-package org._iir.backend.service;
+package org._iir.backend.modules.offre;
 
-import org._iir.backend.bean.Offre;
-import org._iir.backend.dao.OffreDao;
-import org._iir.backend.dto.OffreDTO;
 import org._iir.backend.exception.ResourceNotFoundException;
-import org._iir.backend.mapper.OffreMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.support.TransactionTemplate;
@@ -42,7 +38,7 @@ public class OffreService {
                     .orElseThrow(() -> new ResourceNotFoundException("Offre introuvable avec id : " + id));
             existingOffre.setDescription(offreDTO.getDescription());
             existingOffre.setTarif(offreDTO.getTarif());
-            existingOffre.setDisponibilite(offreDTO.getDisponibilite());
+            // existingOffre.setDisponibilite(offreDTO.getDisponibilite());
             return offreMapper.toDTO(offreDao.save(existingOffre));
         });
     }
@@ -77,8 +73,8 @@ public class OffreService {
         if (offre.getTarif() <= 0) {
             throw new IllegalArgumentException("Le tarif doit être supérieur à 0.");
         }
-        if (offre.getDisponibilite() == null || offre.getDisponibilite().trim().isEmpty()) {
-            throw new IllegalArgumentException("La disponibilité est obligatoire.");
-        }
+        // if (offre.getDisponibilite() == null || offre.getDisponibilite().trim().isEmpty()) {
+        //     throw new IllegalArgumentException("La disponibilité est obligatoire.");
+        // }
     }
 }

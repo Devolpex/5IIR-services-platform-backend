@@ -1,4 +1,4 @@
-package org._iir.backend.bean;
+package org._iir.backend.modules.offre;
 
 public enum DisponibiliteStatus {
     DISPONIBLE,

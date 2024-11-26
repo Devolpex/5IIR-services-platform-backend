@@ -1,66 +1,28 @@
-package org._iir.backend.bean;
+package org._iir.backend.modules.service;
+
+import org._iir.backend.modules.prestataire.Prestataire;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
+@Table(name = "prestataires")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Service {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     private String typeService;
     private String description;
-    private float tarif;
+    private Double tarif;
     private String disponibilite;
 
     @ManyToOne
     private Prestataire prestataire;
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getTypeService() {
-        return typeService;
-    }
-
-    public void setTypeService(String typeService) {
-        this.typeService = typeService;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public float getTarif() {
-        return tarif;
-    }
-
-    public void setTarif(float tarif) {
-        this.tarif = tarif;
-    }
-
-    public String getDisponibilite() {
-        return disponibilite;
-    }
-
-    public void setDisponibilite(String disponibilite) {
-        this.disponibilite = disponibilite;
-    }
-
-    public Prestataire getPrestataire() {
-        return prestataire;
-    }
-
-    public void setPrestataire(Prestataire prestataire) {
-        this.prestataire = prestataire;
-    }
 }

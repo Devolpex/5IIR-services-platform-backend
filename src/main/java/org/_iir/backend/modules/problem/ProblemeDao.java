@@ -1,7 +1,8 @@
-package org._iir.backend.dao;
+package org._iir.backend.modules.problem;
 
-import org._iir.backend.bean.Probleme;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface ProblemeDao extends JpaRepository<Probleme, Integer> {
+@Repository
+public interface ProblemeDao extends JpaRepository<Problem, Long> {
 }

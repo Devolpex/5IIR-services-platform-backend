@@ -12,9 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org._iir.backend.modules.user.User;
 import org._iir.backend.security.JwtProvider;
-import org._iir.backend.bean.User;
-
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,8 +28,8 @@ public class AuthController {
     private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
 
     @PostMapping("/login")
-    public ResponseEntity<UserDto> login(@RequestBody LoginRequest loginRequest) {
-        UserDto user = authService.login(loginRequest);
+    public ResponseEntity<UserDTO> login(@RequestBody LoginRequest loginRequest) {
+        UserDTO user = authService.login(loginRequest);
         logger.info("User " + user.getEmail() + " logged in");
         return ResponseEntity.ok(user);
     }

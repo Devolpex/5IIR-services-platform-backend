@@ -1,6 +1,5 @@
-package org._iir.backend.bean;
+package org._iir.backend.modules.user;
 
-import org._iir.backend.enums.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -1,4 +1,4 @@
-package org._iir.backend.enums;
+package org._iir.backend.modules.user;
 
 public enum Role {
     ADMIN,

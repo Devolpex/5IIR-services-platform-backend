@@ -1,8 +1,8 @@
-package org._iir.backend.modules.proposition;
+package org._iir.backend.modules.service;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface PropositionDao extends JpaRepository<Proposition, Long> {
+public interface ServiceRepository extends JpaRepository<Service, Long> {
 }

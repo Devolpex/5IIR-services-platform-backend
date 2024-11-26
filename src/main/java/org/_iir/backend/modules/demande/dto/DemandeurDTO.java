@@ -1,4 +1,4 @@
-package org._iir.backend.modules.offre;
+package org._iir.backend.modules.demande.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,10 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class OffreDTO {
+public class DemandeurDTO {
     private Long id;
-    private String description;
-    private Double tarif;
-    private String disponibilite;
-    private Long prestataireId;
+    private String name;
 }

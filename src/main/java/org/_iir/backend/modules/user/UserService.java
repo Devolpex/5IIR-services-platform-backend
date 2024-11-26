@@ -1,6 +1,5 @@
-package org._iir.backend.service;
+package org._iir.backend.modules.user;
 
-import org._iir.backend.bean.User;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;

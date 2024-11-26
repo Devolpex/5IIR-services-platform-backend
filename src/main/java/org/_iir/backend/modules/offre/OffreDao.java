@@ -1,6 +1,5 @@
-package org._iir.backend.dao;
+package org._iir.backend.modules.offre;
 
-import org._iir.backend.bean.Offre;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

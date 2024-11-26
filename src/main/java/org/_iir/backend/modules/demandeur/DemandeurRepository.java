@@ -1,8 +1,6 @@
-package org._iir.backend.dao;
-
+package org._iir.backend.modules.demandeur;
 import java.util.Optional;
 
-import org._iir.backend.bean.Demandeur;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

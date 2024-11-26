@@ -1,4 +1,8 @@
-package org._iir.backend.bean;
+package org._iir.backend.modules.offre;
+
+import org._iir.backend.modules.demande.Demande;
+import org._iir.backend.modules.demandeur.Demandeur;
+import org._iir.backend.modules.prestataire.Prestataire;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -12,18 +16,13 @@ import lombok.NoArgsConstructor;
 @Builder
 @Data
 public class Offre {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
     @ManyToOne
-    @JoinColumn(name = "demande_service_id")
-    private DemandeService demandeService;
-
-    public DemandeService getDemandeService() {
-        return demandeService;
-    }
-
-
+    @JoinColumn(name = "demande_id")
+    private Demande demandes;
 
     private String description;
     private Double tarif;
@@ -32,9 +31,6 @@ public class Offre {
     @ManyToOne
     private Prestataire prestataire;
 
-
     @ManyToOne
     private Demandeur demandeur;
-
-
 }

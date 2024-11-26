@@ -1,6 +1,8 @@
 package org._iir.backend.modules.evaluation;
 
-import org._iir.backend.bean.Demandeur;
+
+import org._iir.backend.modules.demandeur.Demandeur;
+import org._iir.backend.modules.prestataire.Prestataire;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -16,7 +18,7 @@ import lombok.NoArgsConstructor;
 public class Evaluation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     private Integer note;
     private String commentaire;

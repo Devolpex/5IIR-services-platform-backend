@@ -1,7 +1,9 @@
-package org._iir.backend.dao;
+package org._iir.backend.modules.prestataire;
 
-import org._iir.backend.bean.Prestataire;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface PrestataireDao extends JpaRepository<Prestataire, Integer> {
+
+@Repository
+public interface PrestataireDao extends JpaRepository<Prestataire, Long> {
 }

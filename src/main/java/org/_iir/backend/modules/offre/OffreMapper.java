@@ -1,7 +1,5 @@
-package org._iir.backend.mapper;
+package org._iir.backend.modules.offre;
 
-import org._iir.backend.bean.Offre;
-import org._iir.backend.dto.OffreDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
