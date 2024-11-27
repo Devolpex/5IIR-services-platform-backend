@@ -28,18 +28,33 @@ public class SecurityConfig {
     private final CustomUserDetailsService userDetailsService;
     private final AuthEntryPointJwt unauthorizedHandler;
 
+    // Autorisations Statis informations
+    private final static String ADMIN = "ADMIN";
+    private final static String[] PUBLIC_ENDPOINTS = {
+            "/api/auth/login",
+    };
+
+    private final static String[] USERS_ENDPOINTS = {
+            "/api/users/**"
+    };
+
+
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(authorizeRequests -> authorizeRequests
-                        .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
-                        .anyRequest().authenticated())
                 .sessionManagement(
                         sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         // Handle unauthorized requests
         http.exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler));
+
+        // Authorizations
+        http.authorizeHttpRequests(authorizeRequests -> authorizeRequests
+                .requestMatchers(PUBLIC_ENDPOINTS).permitAll()
+                .requestMatchers(USERS_ENDPOINTS).hasAuthority(ADMIN)
+                .anyRequest().authenticated());
         return http.build();
     }
 
