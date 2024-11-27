@@ -33,7 +33,7 @@ public class Demande {
     @JoinColumn(name = "demandeur_id")
     private Demandeur demandeur;
 
-    @OneToMany(mappedBy = "demandeService")
+    @OneToMany(mappedBy = "demande")
     private List<Proposition> propositions;
 
     private LocalDateTime createdAt;

@@ -5,6 +5,8 @@ import java.util.stream.Collectors;
 
 import org.springframework.http.ResponseEntity;
 import org._iir.backend.exception.MyAuthException;
+import org._iir.backend.exception.OwnAlreadyExistsException;
+import org._iir.backend.exception.OwnNotFoundException;
 import org._iir.backend.exception.OwnNotSaveException;
 import org._iir.backend.handler.errors.MyErrRes;
 import org.springframework.http.HttpStatus;
@@ -47,5 +49,19 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public ResponseEntity<MyErrRes> handleMyAuthException(MyAuthException ex) {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.getResponse());
+    }
+
+    // Handle OwnAlreadyExistsException
+    @ExceptionHandler(OwnAlreadyExistsException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public ResponseEntity<OwnErrorResponse> handleOwnAlreadyExistsException(OwnAlreadyExistsException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getResponse());
+    }
+
+    // Handle OwnNotFoundException
+    @ExceptionHandler(OwnNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResponseEntity<OwnErrorResponse> handleOwnNotFoundException(OwnNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getResponse());
     }
 }

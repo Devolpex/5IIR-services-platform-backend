@@ -33,7 +33,7 @@ public class User implements UserDetails {
 
     private boolean accountVerified =false;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user",fetch = FetchType.EAGER)
     Set<SecureToken> secureTokens;
 
     @Override
