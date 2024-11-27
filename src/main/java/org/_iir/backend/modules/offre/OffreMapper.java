@@ -1,14 +1,16 @@
-package org._iir.backend.modules.offre;
+// package org._iir.backend.modules.offre;
 
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
+// import org.mapstruct.Mapper;
+// import org.mapstruct.Mapping;
 
-@Mapper(componentModel = "spring")
-public interface OffreMapper {
+// @Mapper(componentModel = "spring")
+// public interface OffreMapper {
 
-    @Mapping(source = "prestataire.id", target = "prestataireId")
-    OffreDTO toDTO(Offre offre);
+//     @Mapping(source = "prestataire.id", target = "prestataireId")
+//     OffreDTO toDTO(Offre offre);
 
-    @Mapping(target = "prestataire", ignore = true)
-    Offre toEntity(OffreDTO dto);
-}
+//     @Mapping(target = "prestataire", ignore = true)
+//     @Mapping(target = "demandeur", ignore = true)
+//     @Mapping(target = "demandes", ignore = true)
+//     Offre toEntity(OffreDTO dto);
+// }
