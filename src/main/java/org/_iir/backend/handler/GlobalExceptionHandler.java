@@ -8,6 +8,7 @@ import org._iir.backend.exception.MyAuthException;
 import org._iir.backend.exception.OwnAlreadyExistsException;
 import org._iir.backend.exception.OwnNotFoundException;
 import org._iir.backend.exception.OwnNotSaveException;
+import org._iir.backend.exception.PasswordIncorrectException;
 import org._iir.backend.handler.errors.MyErrRes;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
@@ -63,5 +64,12 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ResponseEntity<OwnErrorResponse> handleOwnNotFoundException(OwnNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getResponse());
+    }
+
+    // Handle PasswordIncorrectException
+    @ExceptionHandler(PasswordIncorrectException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<OwnErrorResponse> handlePasswordIncorrectException(PasswordIncorrectException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getResponse());
     }
 }

@@ -21,13 +21,13 @@ import org._iir.backend.modules.user.User;
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class Prestataire extends User {
-    @OneToMany(mappedBy = "prestataire")
+    @OneToMany(mappedBy = "prestataire", fetch = FetchType.EAGER)
     private List<Service> services;
 
-    @OneToMany(mappedBy = "prestataire")
+    @OneToMany(mappedBy = "prestataire", fetch = FetchType.EAGER)
     private List<Proposition> propositions;
 
-    @OneToMany(mappedBy = "prestataire")
+    @OneToMany(mappedBy = "prestataire", fetch = FetchType.EAGER)
     private List<Offre> offres;
 
 }
