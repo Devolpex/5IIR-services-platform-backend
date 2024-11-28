@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -38,6 +37,10 @@ public class SecurityConfig {
             "/api/users/**"
     };
 
+    private final static String[] ACCOUNT_ENDPOINTS = {
+            "/api/account/**"
+    };
+
 
 
     @Bean
@@ -54,6 +57,7 @@ public class SecurityConfig {
         http.authorizeHttpRequests(authorizeRequests -> authorizeRequests
                 .requestMatchers(PUBLIC_ENDPOINTS).permitAll()
                 .requestMatchers(USERS_ENDPOINTS).hasAuthority(ADMIN)
+                .requestMatchers(ACCOUNT_ENDPOINTS).authenticated()
                 .anyRequest().authenticated());
         return http.build();
     }
