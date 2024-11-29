@@ -3,8 +3,8 @@ spring:
     name: service-platform
   datasource:
     url: jdbc:mysql://localhost:3306/jaim_db?createDatabaseIfNotExist=true
-    username: marouane
-    password: Marouane@2001
+    username: root
+    password: 1234567890@
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:

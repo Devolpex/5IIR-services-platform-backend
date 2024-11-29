@@ -3,6 +3,8 @@ package org._iir.backend.config;
 import java.util.Date;
 import java.util.List;
 
+import org._iir.backend.modules.demande.Demande;
+import org._iir.backend.modules.demande.DemandeRepository;
 import org._iir.backend.modules.demandeur.Demandeur;
 import org._iir.backend.modules.offre.Offre;
 import org._iir.backend.modules.offre.OffreRepository;
@@ -31,6 +33,7 @@ public class DatabaseInit {
 
         private final UserRepository userRepository;
         private final ServiceRepository serviceRepository;
+        private final DemandeRepository demandeRepository;
         private final PrestataireServicesRepository prestataireServicesRepository;
         private final PasswordEncoder passwordEncoder;
         private final OffreRepository offreRepository;
@@ -154,6 +157,15 @@ public class DatabaseInit {
                                         offreOrderRepository.save(order);
                                 }
                         }
+
+                        Demande demande1 = Demande.builder()
+                                        .service("Electricite")
+                                        .description("Demande de dépannage électrique")
+                                        .dateDisponible(new Date())
+                                        .lieu("Tunis")
+                                        .demandeur(demandeur)
+                                        .build();
+                        demandeRepository.save(demande1);
 
                 };
         }
