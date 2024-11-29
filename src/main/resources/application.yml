@@ -2,7 +2,7 @@ spring:
   application:
     name: service-platform
   datasource:
-    url: jdbc:mysql://localhost:3306/services_platform_db?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/jaim_db?createDatabaseIfNotExist=true
     username: root
     password: 1234567890@
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -29,3 +29,9 @@ server:
 
 cors:
   allowed-origin: http://localhost:4200
+
+logging:
+  level:
+    org.springframework.web: DEBUG      # Enables debug logs for Spring Web
+    org.springframework.security: DEBUG # Enables debug logs for Spring Security
+    root: INFO   
