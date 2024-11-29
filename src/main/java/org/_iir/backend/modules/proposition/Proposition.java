@@ -1,5 +1,8 @@
 package org._iir.backend.modules.proposition;
 
+import java.time.LocalDateTime;
+import java.util.Date;
+
 import org._iir.backend.modules.demande.Demande;
 import org._iir.backend.modules.prestataire.Prestataire;
 
@@ -19,12 +22,30 @@ public class Proposition {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Double tarifPropose;
-    private String disponibiliteProposee;
+    private String description;
+    private Double tarifProposer;
+    @Temporal(TemporalType.DATE)
+    private Date disponibiliteProposer;
 
-    @ManyToOne
+    @ManyToOne()
+    @JoinColumn(name = "demande_id")
     private Demande demande;
 
     @ManyToOne
+    @JoinColumn(name = "prestataire_id")
     private Prestataire prestataire;
+
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+
+    @PrePersist
+    private void onCreate() {
+        this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+    }
+
+    @PreUpdate
+    private void onUpdate() {
+        this.updatedAt = LocalDateTime.now();
+    }
 }
