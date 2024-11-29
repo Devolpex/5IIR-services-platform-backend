@@ -64,7 +64,7 @@
 		<dependency>
 			<groupId>org.mapstruct</groupId>
 			<artifactId>mapstruct</artifactId>
-			<version>1.5.5.Final</version> <!-- Vérifiez que cette version est compatible -->
+			<version>1.5.5.Final</version> 
 		</dependency>
 		<!-- MapStruct Annotation Processor -->
 		<dependency>

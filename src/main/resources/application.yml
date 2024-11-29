@@ -2,13 +2,13 @@ spring:
   application:
     name: service-platform
   datasource:
-    url: jdbc:mysql://localhost:3307/services_platform_db
-    username: admin
-    password: password
+    url: jdbc:mysql://localhost:3306/jaim_db?createDatabaseIfNotExist=true
+    username: marouane
+    password: Marouane@2001
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
@@ -29,3 +29,9 @@ server:
 
 cors:
   allowed-origin: http://localhost:4200
+
+logging:
+  level:
+    org.springframework.web: DEBUG      # Enables debug logs for Spring Web
+    org.springframework.security: DEBUG # Enables debug logs for Spring Security
+    root: INFO   
