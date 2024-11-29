@@ -8,10 +8,10 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.util.List;
+import java.util.Set;
 
-import org._iir.backend.modules.offre.Offre;
+import org._iir.backend.modules.prestataire_services.PrestataireServices;
 import org._iir.backend.modules.proposition.Proposition;
-import org._iir.backend.modules.service.Service;
 import org._iir.backend.modules.user.User;
 
 @Entity
@@ -21,13 +21,19 @@ import org._iir.backend.modules.user.User;
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class Prestataire extends User {
-    @OneToMany(mappedBy = "prestataire", fetch = FetchType.EAGER)
-    private List<Service> services;
+
+    @OneToMany(mappedBy = "prestataire", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    private Set<PrestataireServices> prestataireServices;
 
     @OneToMany(mappedBy = "prestataire", fetch = FetchType.EAGER)
     private List<Proposition> propositions;
 
-    @OneToMany(mappedBy = "prestataire", fetch = FetchType.EAGER)
-    private List<Offre> offres;
+    @Override
+    public String toString() {
+        return "Prestataire [id=" + id + ", email=" + email + "]";
+    }
+
+
+
 
 }

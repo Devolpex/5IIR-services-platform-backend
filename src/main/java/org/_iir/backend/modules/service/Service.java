@@ -1,28 +1,31 @@
 package org._iir.backend.modules.service;
 
-import org._iir.backend.modules.prestataire.Prestataire;
+import java.util.Set;
+
+import org._iir.backend.modules.prestataire_services.PrestataireServices;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "prestataires")
+@Table(name = "services")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Service {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private String typeService;
+    private String title;
     private String description;
-    private Double tarif;
-    private String disponibilite;
 
-    @ManyToOne
-    private Prestataire prestataire;
+
+    @OneToMany(mappedBy = "service", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<PrestataireServices> prestataireServices;
 
 }

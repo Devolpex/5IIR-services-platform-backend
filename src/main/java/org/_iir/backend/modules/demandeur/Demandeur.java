@@ -10,7 +10,7 @@ import lombok.experimental.SuperBuilder;
 import java.util.List;
 
 import org._iir.backend.modules.demande.Demande;
-import org._iir.backend.modules.offre.Offre;
+import org._iir.backend.modules.order.offre.OrderOffre;
 import org._iir.backend.modules.user.User;
 
 @Entity
@@ -20,10 +20,10 @@ import org._iir.backend.modules.user.User;
 @EqualsAndHashCode(callSuper = false)
 @SuperBuilder
 public class Demandeur extends User {
-    @OneToMany(mappedBy = "demandeur")
+    @OneToMany(mappedBy = "demandeur", fetch = FetchType.EAGER)
     private List<Demande> demandes;
 
-    @OneToMany(mappedBy = "demandeur")
-    private List<Offre> offres;
+    @OneToMany(mappedBy = "demandeur", fetch = FetchType.EAGER)
+    private List<OrderOffre> offreOrders;
 
 }
