@@ -2,13 +2,13 @@ spring:
   application:
     name: service-platform
   datasource:
-    url: jdbc:mysql://localhost:3307/services_platform_db
-    username: admin
-    password: password
+    url: jdbc:mysql://localhost:3306/services_platform_db?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC
+    username: root
+    password: 1234567890@
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect

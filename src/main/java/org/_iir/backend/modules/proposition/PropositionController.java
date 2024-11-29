@@ -20,4 +20,10 @@ public class PropositionController {
             PropositionDto dto = service.create(request);
             return ResponseEntity.status(HttpStatus.CREATED).body(dto);
         }
+
+        @DeleteMapping("/api/proposition/{id}")
+        public ResponseEntity<Void> delete(@PathVariable Long id) {
+            service.delete(id);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
 }

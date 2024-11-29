@@ -10,7 +10,7 @@ import org._iir.backend.modules.prestataire.Prestataire;
 import org._iir.backend.modules.proposition.dto.PropositionDto;
 import org._iir.backend.modules.proposition.dto.PropositionReq;
 import org._iir.backend.modules.user.UserService;
-import org.hibernate.validator.internal.util.logging.LoggerFactory;
+import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,8 +23,8 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j
 public class PropositionService implements IService<Proposition, PropositionDto, PropositionReq, PropositionReq, Long> {
-    // Logger
-    // private final Logger logger = LoggerFactory.getLogger(getClass().getName());
+    //Logger
+    private final Logger logger = LoggerFactory.getLogger(getClass().getName());
     
     private final PropositionDao repository;
     private final PropositionMapper mapper;
@@ -60,7 +60,15 @@ public class PropositionService implements IService<Proposition, PropositionDto,
 
     @Override
     public void delete(Long id) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        repository.findById(id)
+        .ifPresentOrElse(
+                // Delete the PropositionService
+                repository::delete,
+                // Throw Exception
+                () -> {
+                    logger.error("PropositionService not found for id : {}", id);
+                    throw new OwnNotFoundException("PropositionService not found");
+                });
     }
 
     @Override
