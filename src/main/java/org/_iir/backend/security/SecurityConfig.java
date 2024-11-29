@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -23,58 +24,81 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final JwtFilter jwtFilter;
-    private final CustomUserDetailsService userDetailsService;
-    private final AuthEntryPointJwt unauthorizedHandler;
+        private final JwtFilter jwtFilter;
+        private final CustomUserDetailsService userDetailsService;
+        private final AuthEntryPointJwt unauthorizedHandler;
 
-    // Autorisations Statis informations
-    private final static String ADMIN = "ADMIN";
-    private final static String[] PUBLIC_ENDPOINTS = {
-            "/api/auth/login",
-    };
+        // Roles
+        private final static String ADMIN = "ADMIN";
+        private final static String PRESTATAIRE = "PRESTATAIRE";
+        private final static String DEMANDEUR = "DEMANDEUR";
 
-    private final static String[] USERS_ENDPOINTS = {
-            "/api/users/**"
-    };
+        // Endpoints
+        private final static String[] PUBLIC_ENDPOINTS = {
+                        "/api/auth/login",
+                        "/api/debug/**",
+        };
 
-    private final static String[] ACCOUNT_ENDPOINTS = {
-            "/api/account/**"
-    };
+        private final static String[] USERS_ENDPOINTS = {
+                        "/api/users/**"
+        };
 
+        private final static String[] ACCOUNT_ENDPOINTS = {
+                        "/api/account/**"
+        };
 
+        // private final static String[] OFFRE_ORDER_ENDPOINTS = {
+        // "/api/order/offer/**"
+        // };
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf(AbstractHttpConfigurer::disable)
-                .sessionManagement(
-                        sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
+        @Bean
+        public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+                http.csrf(AbstractHttpConfigurer::disable)
+                                .sessionManagement(
+                                                sessionManagement -> sessionManagement
+                                                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
-        // Handle unauthorized requests
-        http.exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler));
+                // Handle unauthorized requests
+                http.exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler));
 
-        // Authorizations
-        http.authorizeHttpRequests(authorizeRequests -> authorizeRequests
-                .requestMatchers(PUBLIC_ENDPOINTS).permitAll()
-                .requestMatchers(USERS_ENDPOINTS).hasAuthority(ADMIN)
-                .requestMatchers(ACCOUNT_ENDPOINTS).authenticated()
-                .anyRequest().authenticated());
-        return http.build();
-    }
+                // Authorizations
+                http.authorizeHttpRequests(authorizeRequests -> authorizeRequests
+                                .requestMatchers(PUBLIC_ENDPOINTS).permitAll()
+                                .requestMatchers(USERS_ENDPOINTS).hasAuthority(ADMIN)
+                                // .requestMatchers(OFFRE_ORDER_ENDPOINTS).authenticated()
+                                // .hasAnyAuthority(ADMIN, DEMANDEUR)
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+                                // Order Offre Endpoints
+                                .requestMatchers(HttpMethod.POST, "/api/order/offer").hasAuthority(DEMANDEUR)
+                                .requestMatchers(HttpMethod.GET, "/api/order/offer/{id}").hasAuthority(ADMIN)
+                                .requestMatchers(HttpMethod.GET, "/api/order/offer").hasAuthority(ADMIN)
+                                .requestMatchers(HttpMethod.GET, "/api/order/offer/list").hasAuthority(ADMIN)
+                                .requestMatchers(HttpMethod.GET, "/api/order/offer/user")
+                                .hasAuthority(DEMANDEUR)
+                                // .hasAnyAuthority(PRESTATAIRE, DEMANDEUR)
+                                .requestMatchers(HttpMethod.PATCH, "/api/order/offer/confirm/{id}")
+                                .hasAuthority(PRESTATAIRE)
+                                .requestMatchers(HttpMethod.PATCH, "/api/order/offer/cancel/{id}")
+                                .hasAuthority(PRESTATAIRE)
+                                .requestMatchers(ACCOUNT_ENDPOINTS).authenticated()
+                                .anyRequest().authenticated());
+                return http.build();
+        }
 
-    @Bean
-    public AuthenticationProvider authenticationProvider() {
-        return new CustomAuthProvider(userDetailsService, passwordEncoder());
-    }
+        @Bean
+        public PasswordEncoder passwordEncoder() {
+                return new BCryptPasswordEncoder();
+        }
 
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+        @Bean
+        public AuthenticationProvider authenticationProvider() {
+                return new CustomAuthProvider(userDetailsService, passwordEncoder());
+        }
 
-        return config.getAuthenticationManager();
-    }
+        @Bean
+        public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+
+                return config.getAuthenticationManager();
+        }
 }
