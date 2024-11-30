@@ -16,6 +16,8 @@ import org._iir.backend.modules.service.Service;
 import org._iir.backend.modules.prestataire_services.PrestataireServices;
 import org._iir.backend.modules.prestataire_services.PrestataireServicesRepository;
 import org._iir.backend.modules.prestataire_services.PrestataireServiceID;
+import org._iir.backend.modules.proposition.Proposition;
+import org._iir.backend.modules.proposition.PropositionDao;
 import org._iir.backend.modules.user.Role;
 import org._iir.backend.modules.user.User;
 import org._iir.backend.modules.user.UserRepository;
@@ -34,6 +36,7 @@ public class DatabaseInit {
         private final UserRepository userRepository;
         private final ServiceRepository serviceRepository;
         private final DemandeRepository demandeRepository;
+        private final PropositionDao propositionRepository;
         private final PrestataireServicesRepository prestataireServicesRepository;
         private final PasswordEncoder passwordEncoder;
         private final OffreRepository offreRepository;
@@ -158,6 +161,7 @@ public class DatabaseInit {
                                 }
                         }
 
+                        // Create Demande
                         Demande demande1 = Demande.builder()
                                         .service("Electricite")
                                         .description("Demande de dépannage électrique")
@@ -167,6 +171,51 @@ public class DatabaseInit {
                                         .build();
                         demandeRepository.save(demande1);
 
+                        Demande demande2 = Demande.builder()
+                                        .service("Plomberie")
+                                        .description("Demande de réparation plomberie")
+                                        .dateDisponible(new Date())
+                                        .lieu("Ariana")
+                                        .demandeur(demandeur)
+                                        .build();
+                        demandeRepository.save(demande2);
+
+                        Demande demande3 = Demande.builder()
+                                        .service("Peinture")
+                                        .description("Demande de peinture")
+                                        .dateDisponible(new Date())
+                                        .lieu("Ben Arous")
+                                        .demandeur(demandeur)
+                                        .build();
+                        demandeRepository.save(demande3);
+
+                        // Create Propositions
+                        Proposition proposition1 = Proposition.builder()
+                                        .description("Proposition de dépannage électrique")
+                                        .tarifProposer(150.0)
+                                        .disponibiliteProposer(new Date())
+                                        .demande(demande1)
+                                        .prestataire(prestataire)
+                                        .build();
+                        propositionRepository.save(proposition1);
+
+                        Proposition proposition2 = Proposition.builder()
+                                        .description("Proposition de réparation plomberie")
+                                        .tarifProposer(100.0)
+                                        .disponibiliteProposer(new Date())
+                                        .demande(demande2)
+                                        .prestataire(prestataire)
+                                        .build();
+                        propositionRepository.save(proposition2);
+
+                        Proposition proposition3 = Proposition.builder()
+                                        .description("Proposition de peinture")
+                                        .tarifProposer(200.0)
+                                        .disponibiliteProposer(new Date())
+                                        .demande(demande3)
+                                        .prestataire(prestataire)
+                                        .build();
+                        propositionRepository.save(proposition3);
                 };
         }
 }
