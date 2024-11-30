@@ -73,7 +73,12 @@ public class PropositionService implements IService<Proposition, PropositionDto,
 
     @Override
     public PropositionDto findById(Long id) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return repository.findById(id)
+                .map(mapper::toDTO)
+                .orElseThrow(() -> {
+                    logger.error("PropositionService not found for id : {}", id);
+                    throw new OwnNotFoundException("PropositionService not found");
+                });
     }
 
     @Override

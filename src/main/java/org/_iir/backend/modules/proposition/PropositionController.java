@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
+
 @RestController
 @RequiredArgsConstructor
 public class PropositionController {
@@ -26,4 +27,12 @@ public class PropositionController {
             service.delete(id);
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }
+
+        @GetMapping("/api/proposition/{id}")
+        public ResponseEntity<PropositionDto> findById(
+                @PathVariable Long id) {
+            PropositionDto dto = service.findById(id);
+            return ResponseEntity.status(HttpStatus.OK).body(dto);
+        }
+        
 }
