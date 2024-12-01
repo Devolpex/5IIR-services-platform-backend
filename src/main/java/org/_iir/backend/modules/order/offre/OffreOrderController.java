@@ -66,8 +66,7 @@ public class OffreOrderController {
 
     // Fetch order by user
     @GetMapping("/user")
-    // @PreAuthorize("hasAnyAuthority('PRESTATAIRE', 'DEMANDEUR')")
-    @PreAuthorize("hasAuthority('DEMANDEUR')")
+    @PreAuthorize("hasAnyAuthority('DEMANDEUR', 'PRESTATAIRE')")
     public ResponseEntity<List<OffreOrderDTO>> getOrdersByUser() {
         List<OffreOrderDTO> orders = service.fetchOrdersByUser();
         return ResponseEntity.status(HttpStatus.OK).body(orders);
