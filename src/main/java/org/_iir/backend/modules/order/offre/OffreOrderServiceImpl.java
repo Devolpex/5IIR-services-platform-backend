@@ -34,7 +34,6 @@ public class OffreOrderServiceImpl implements IOrder<OrderOffre, OffreOrderDTO, 
     private final UserService userService;
     private final OffreOrderMapper orderMapper;
 
-
     @Override
     public OffreOrderDTO create(OffreOrderREQ req) {
         // Find the offre by id
@@ -69,7 +68,11 @@ public class OffreOrderServiceImpl implements IOrder<OrderOffre, OffreOrderDTO, 
 
     @Override
     public void delete(Long id) {
-
+        orderRepository.findById(id)
+                .ifPresentOrElse(orderRepository::delete, () -> {
+                    log.error("Order not found with id: {}", id);
+                    throw new OwnNotFoundException("Order not found");
+                });
     }
 
     @Override
@@ -118,7 +121,7 @@ public class OffreOrderServiceImpl implements IOrder<OrderOffre, OffreOrderDTO, 
                     .flatMap(offre -> offre.getOrders().stream())
                     .map(orderMapper::toDTO)
                     .toList();
-            
+
         }
         return null;
     }
