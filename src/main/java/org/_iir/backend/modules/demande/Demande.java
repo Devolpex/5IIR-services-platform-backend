@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -18,6 +19,7 @@ import org._iir.backend.modules.proposition.Proposition;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@ToString(exclude = {"demandeur", "propositions"})
 public class Demande {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,7 +35,7 @@ public class Demande {
     @JoinColumn(name = "demandeur_id")
     private Demandeur demandeur;
 
-    @OneToMany(mappedBy = "demande")
+    @OneToMany(mappedBy = "demande",fetch = FetchType.EAGER)
     private List<Proposition> propositions;
 
     private LocalDateTime createdAt;

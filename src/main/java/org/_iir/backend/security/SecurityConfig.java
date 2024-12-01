@@ -82,6 +82,17 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.PATCH, "/api/order/offer/cancel/{id}")
                                 .hasAuthority(PRESTATAIRE)
                                 .requestMatchers(HttpMethod.DELETE, "/api/order/offer/{id}").hasAuthority(ADMIN)
+
+                                // Order Demande Endpoints
+                                .requestMatchers(HttpMethod.POST, "/api/order/demande").hasAuthority(DEMANDEUR)
+                                .requestMatchers(HttpMethod.GET, "/api/order/demande/{id}").hasAuthority(ADMIN)
+                                .requestMatchers(HttpMethod.GET, "/api/order/demande").hasAuthority(ADMIN)
+                                .requestMatchers(HttpMethod.GET, "/api/order/demande/list").hasAuthority(ADMIN)
+                                .requestMatchers(HttpMethod.DELETE, "/api/order/demande/{id}").hasAuthority(ADMIN)
+                                .requestMatchers(HttpMethod.PATCH, "/api/order/demande/{id}/confirm")
+                                .hasAuthority(PRESTATAIRE)
+                                .requestMatchers(HttpMethod.PATCH, "/api/order/demande/{id}/cancel")
+                                .hasAnyAuthority(PRESTATAIRE, DEMANDEUR)
                                 .requestMatchers(ACCOUNT_ENDPOINTS).authenticated()
                                 .anyRequest().authenticated());
                 return http.build();
