@@ -10,6 +10,7 @@ import org._iir.backend.modules.demandeur.Demandeur;
 import org._iir.backend.modules.order.IOrder;
 import org._iir.backend.modules.order.OrderStatus;
 import org._iir.backend.modules.order.dto.DemandeOrderDTO;
+import org._iir.backend.modules.prestataire.Prestataire;
 import org._iir.backend.modules.proposition.Proposition;
 import org._iir.backend.modules.proposition.PropositionDao;
 import org._iir.backend.modules.user.UserService;
@@ -78,20 +79,26 @@ public class DemandeOrderServiceImpl
 
     @Override
     public DemandeOrderDTO findById(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findById'");
+        return orderRepository.findById(id)
+                .map(orderMapper::toDTO)
+                .orElseThrow(() -> {
+                    log.error("Order with id {} not found", id);
+                    return new OwnNotFoundException("Order not exists");
+                });
     }
 
     @Override
     public List<DemandeOrderDTO> findList() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findList'");
+        return orderRepository.findAll()
+                .stream()
+                .map(orderMapper::toDTO)
+                .toList();
     }
 
     @Override
     public Page<DemandeOrderDTO> findPage(Pageable pageable) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findPage'");
+        return orderRepository.findAll(pageable)
+                .map(orderMapper::toDTO);
     }
 
     @Override
@@ -102,8 +109,34 @@ public class DemandeOrderServiceImpl
 
     @Override
     public DemandeOrderDTO confirmOrder(Long orderId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'confirmOrder'");
+        // Find the order
+        DemandeOrder order = orderRepository.findById(orderId)
+                .orElseThrow(() -> {
+                    log.error("Order with id {} not found", orderId);
+                    return new OwnNotFoundException("Order not exists");
+                });
+        // Check if the current prestataire is the owner of proposition
+        Prestataire prestataire = (Prestataire) userService.getAuthenticatedUser();
+        if (!order.getProposition().getPrestataire().getId().equals(prestataire.getId())) {
+            log.error("Prestataire with id {} is not the owner of proposition with id {}",
+                    prestataire.getId(),
+                    order.getProposition().getId());
+            throw new OwnNotFoundException("Prestataire is not the owner of proposition");
+        }
+        // Check if the order is already confirmed
+        if (order.getStatus().equals(OrderStatus.CONFIRMED)) {
+            log.error("Order with id {} is already confirmed", orderId);
+            throw new OwnNotFoundException("Order is already confirmed");
+        }
+        // Confirm the order
+        order.setStatus(OrderStatus.CONFIRMED);
+        order = orderRepository.save(order);
+
+        // Sent Email to the demandeur
+        // Sent Email to the prestataire
+
+        
+        return orderMapper.toDTO(order);
     }
 
     @Override

@@ -85,6 +85,9 @@ public class SecurityConfig {
 
                                 // Order Demande Endpoints
                                 .requestMatchers(HttpMethod.POST, "/api/order/demande").hasAuthority(DEMANDEUR)
+                                .requestMatchers(HttpMethod.GET, "/api/order/demande/{id}").hasAuthority(ADMIN)
+                                .requestMatchers(HttpMethod.GET, "/api/order/demande").hasAuthority(ADMIN)
+                                .requestMatchers(HttpMethod.GET, "/api/order/demande/list").hasAuthority(ADMIN)
                                 .requestMatchers(ACCOUNT_ENDPOINTS).authenticated()
                                 .anyRequest().authenticated());
                 return http.build();
