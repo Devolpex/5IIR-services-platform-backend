@@ -1,11 +1,11 @@
 package org._iir.backend.modules.order.demande;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org._iir.backend.exception.OwnNotFoundException;
 import org._iir.backend.modules.demande.Demande;
-import org._iir.backend.modules.demande.DemandeRepository;
 import org._iir.backend.modules.demandeur.Demandeur;
 import org._iir.backend.modules.order.IOrder;
 import org._iir.backend.modules.order.OrderStatus;
@@ -31,7 +31,6 @@ public class DemandeOrderServiceImpl
 
     private final DemandeOrderRepository orderRepository;
     private final DemandeOrderMapperImpl orderMapper;
-    private final DemandeRepository demandeRepository;
     private final PropositionDao propositionDao;
     private final UserService userService;
 
@@ -67,6 +66,9 @@ public class DemandeOrderServiceImpl
         return orderMapper.toDTO(order);
     }
 
+    /**
+     * For bussiness logic, we dont need implement this method.
+     */
     @Override
     public DemandeOrderDTO update(DemandeOrderREQ req, Long id) {
         // TODO Auto-generated method stub
@@ -106,10 +108,41 @@ public class DemandeOrderServiceImpl
                 .map(orderMapper::toDTO);
     }
 
+    /**
+     * Bug: The method fetchOrdersByUser() in DemandeOrderServiceImpl.java is not
+     * implemented correctly. The method is supposed to fetch orders by the current
+     */
     @Override
     public List<DemandeOrderDTO> fetchOrdersByUser() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'fetchOrdersByUser'");
+        // Get the currently authenticated user
+        User user = userService.getAuthenticatedUser();
+
+        // Check if the user is a Demandeur
+        if (user.getRole().equals(Role.DEMANDEUR)) {
+            Demandeur demandeur = (Demandeur) user;
+
+            // List to store the orders
+            List<DemandeOrderDTO> orders = new ArrayList<>();
+
+            // Loop through the list of demandes (the Demandeur's requests)
+            for (Demande demande : demandeur.getDemandes()) {
+                // For each demande, check if it has a related proposition and demandeOrder
+                for (Proposition proposition : demande.getPropositions()) {
+                    DemandeOrder demandeOrder = proposition.getDemandeOrder();
+
+                    if (demandeOrder != null) {
+                        // Convert the DemandeOrder entity to DemandeOrderDTO
+                        DemandeOrderDTO orderDTO = orderMapper.toDTO(demandeOrder);
+                        orders.add(orderDTO); // Add to the list of orders
+                    }
+                }
+            }
+
+            return orders;
+        }
+
+        // Return an empty list or null if the user is not a Demandeur
+        return new ArrayList<>();
     }
 
     @Override
