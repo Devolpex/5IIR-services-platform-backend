@@ -35,7 +35,7 @@ public class Demande {
     @JoinColumn(name = "demandeur_id")
     private Demandeur demandeur;
 
-    @OneToMany(mappedBy = "demande")
+    @OneToMany(mappedBy = "demande",fetch = FetchType.EAGER)
     private List<Proposition> propositions;
 
     private LocalDateTime createdAt;
