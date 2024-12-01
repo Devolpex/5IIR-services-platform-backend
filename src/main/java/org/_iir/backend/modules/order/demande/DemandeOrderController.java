@@ -87,4 +87,12 @@ public class DemandeOrderController {
         return ResponseEntity.status(HttpStatus.OK).body(order);
     }
 
+    // Endpoint to cancel a order
+    @PatchMapping("/{id}/cancel")
+    @PreAuthorize("hasAnyAuthority('PRESTATAIRE', 'DEMANDEUR')")
+    public ResponseEntity<DemandeOrderDTO> cancel(@PathVariable Long id) {
+        DemandeOrderDTO order = service.cancelOrder(id);
+        return ResponseEntity.status(HttpStatus.OK).body(order);
+    }
+
 }
