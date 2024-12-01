@@ -81,6 +81,7 @@ public class SecurityConfig {
                                 .hasAuthority(PRESTATAIRE)
                                 .requestMatchers(HttpMethod.PATCH, "/api/order/offer/cancel/{id}")
                                 .hasAuthority(PRESTATAIRE)
+                                .requestMatchers(HttpMethod.DELETE, "/api/order/offer/{id}").hasAuthority(ADMIN)
                                 .requestMatchers(ACCOUNT_ENDPOINTS).authenticated()
                                 .anyRequest().authenticated());
                 return http.build();
