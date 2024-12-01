@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -76,6 +77,14 @@ public class DemandeOrderController {
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.delete(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    // Endpoint to confirm a order
+    @PatchMapping("/{id}/confirm")
+    @PreAuthorize("hasAuthority('PRESTATAIRE')")
+    public ResponseEntity<DemandeOrderDTO> confirm(@PathVariable Long id) {
+        DemandeOrderDTO order = service.confirmOrder(id);
+        return ResponseEntity.status(HttpStatus.OK).body(order);
     }
 
 }
