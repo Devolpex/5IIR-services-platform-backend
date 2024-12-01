@@ -88,6 +88,7 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.GET, "/api/order/demande/{id}").hasAuthority(ADMIN)
                                 .requestMatchers(HttpMethod.GET, "/api/order/demande").hasAuthority(ADMIN)
                                 .requestMatchers(HttpMethod.GET, "/api/order/demande/list").hasAuthority(ADMIN)
+                                .requestMatchers(HttpMethod.DELETE, "/api/order/demande/{id}").hasAuthority(ADMIN)
                                 .requestMatchers(ACCOUNT_ENDPOINTS).authenticated()
                                 .anyRequest().authenticated());
                 return http.build();

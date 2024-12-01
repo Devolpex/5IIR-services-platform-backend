@@ -73,8 +73,11 @@ public class DemandeOrderServiceImpl
 
     @Override
     public void delete(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'delete'");
+        orderRepository.findById(id)
+                .ifPresentOrElse(orderRepository::delete, () -> {
+                    log.error("Order with id {} not found", id);
+                    throw new OwnNotFoundException("Order not exists");
+                });
     }
 
     @Override
@@ -135,7 +138,6 @@ public class DemandeOrderServiceImpl
         // Sent Email to the demandeur
         // Sent Email to the prestataire
 
-        
         return orderMapper.toDTO(order);
     }
 
