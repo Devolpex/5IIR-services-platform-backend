@@ -15,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -48,7 +47,7 @@ public class AuthController {
         try {
             // Attempt registration
             authService.register(request);
-            return ResponseEntity.ok(Map.of("message", "User registered successfully"));
+            return ResponseEntity.ok("User registered successfully");
         } catch (UserAleradyExistException e) {
             // Handle user already exists exception
             return ResponseEntity.badRequest().body(e.getMessage());
