@@ -32,6 +32,6 @@ cors:
 
 logging:
   level:
-    org.springframework.web: DEBUG      
-    org.springframework.security: DEBUG 
+    org.springframework.web: TRACE      
+    org.springframework.security: TRACE
     root: INFO   
