@@ -6,12 +6,16 @@ import java.util.List;
 import org._iir.backend.modules.demande.Demande;
 import org._iir.backend.modules.demande.DemandeRepository;
 import org._iir.backend.modules.demandeur.Demandeur;
+import org._iir.backend.modules.demandeur.DemandeurRepository;
 import org._iir.backend.modules.offre.Offre;
 import org._iir.backend.modules.offre.OffreRepository;
 import org._iir.backend.modules.order.OrderStatus;
+import org._iir.backend.modules.order.demande.DemandeOrder;
+import org._iir.backend.modules.order.demande.DemandeOrderRepository;
 import org._iir.backend.modules.order.offre.OffreOrderRepository;
 import org._iir.backend.modules.order.offre.OrderOffre;
 import org._iir.backend.modules.prestataire.Prestataire;
+import org._iir.backend.modules.prestataire.PrestataireDao;
 import org._iir.backend.modules.service.Service;
 import org._iir.backend.modules.prestataire_services.PrestataireServices;
 import org._iir.backend.modules.prestataire_services.PrestataireServicesRepository;
@@ -26,6 +30,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import com.github.javafaker.Faker;
 
 import lombok.RequiredArgsConstructor;
 
@@ -40,8 +45,11 @@ public class DatabaseInit {
         private final PrestataireServicesRepository prestataireServicesRepository;
         private final PasswordEncoder passwordEncoder;
         private final OffreRepository offreRepository;
+        private final PrestataireDao prestatairerDao;
 
         private final OffreOrderRepository offreOrderRepository;
+        private final DemandeOrderRepository demandeOrderRepository;
+        private final Faker faker = new Faker();
 
         private static final String PASSWORD = "Password";
 
@@ -216,6 +224,115 @@ public class DatabaseInit {
                                         .prestataire(prestataire)
                                         .build();
                         propositionRepository.save(proposition3);
+
+                        // Insert 3 services
+                        this.insertServices(3);
+                        // Insert 5 prestataires
+                        this.insertPrestataires(5);
+                        // Insert 10 demandes
+                        this.insertDemandes(10);
+                        this.insertPropositions();
+                        // Insert DemandeOrder for Each Demande
+                        this.insertDemandeOrder();
+
                 };
         }
+
+        // Method to insert prestataires dynamically
+        private void insertPrestataires(int nbr) {
+                for (int i = 0; i < nbr; i++) {
+                        Prestataire prestataire = Prestataire
+                                        .builder()
+                                        .nom("prestataire" + i)
+                                        .email("prestataire" + i + "@gmail.com")
+                                        .password(passwordEncoder.encode(PASSWORD))
+                                        .role(Role.PRESTATAIRE)
+                                        .build();
+                        userRepository.save(prestataire);
+                }
+        }
+
+        // Method to insert services dynamically
+        private void insertServices(int nbr) {
+                for (int i = 0; i < nbr; i++) {
+                        // Use faker to generate a service title and description
+                        Service service = Service.builder()
+                                        .title(faker.job().title()) // Generate a job title (can represent a service
+                                                                    // like "Plumber" or "Gardener")
+                                        .description(faker.lorem().sentence()) // Generate a sentence as description
+                                        .build();
+
+                        // Save the service to the repository
+                        serviceRepository.save(service);
+                }
+        }
+
+        // Method to insert demandes dynamically
+        private void insertDemandes(int nbr) {
+                Demandeur demandeur = demandeRepository.findById(1L).get().getDemandeur();
+                for (int i = 0; i < nbr; i++) {
+                        Demande demande = Demande.builder()
+                                        .service(faker.job().title())
+                                        .description(faker.lorem().sentence())
+                                        .dateDisponible(faker.date().birthday())
+                                        .lieu(faker.address().city())
+                                        .demandeur(demandeur)
+                                        .build();
+                        demandeRepository.save(demande);
+                }
+        }
+
+        // Method to insert propositions dynamically for each Demande and each
+        // Prestataire
+        private void insertPropositions() {
+                List<Demande> demandes = demandeRepository.findAll();
+                List<Prestataire> prestataires = prestatairerDao.findAll();
+
+                for (Demande demande : demandes) {
+                        // For each Demande, insert a Proposition for each Prestataire
+                        for (Prestataire prestataire : prestataires) {
+                                // Create a new Proposition for the current Demande and Prestataire
+                                Proposition proposition = Proposition.builder()
+                                                .description(faker.lorem().sentence())
+                                                .tarifProposer(faker.number().randomDouble(2, 50, 500))
+                                                .disponibiliteProposer(faker.date().birthday())
+                                                .demande(demande) // Associate the current Demande
+                                                .prestataire(prestataire) // Associate the current Prestataire
+                                                .build();
+
+                                // Save the created Proposition
+                                propositionRepository.save(proposition);
+                        }
+                }
+        }
+
+        // Insert DemandeOrder for Each Demande
+        private void insertDemandeOrder() {
+                List<Demande> demandes = demandeRepository.findAll();
+
+                for (Demande demande : demandes) {
+                        List<Proposition> propositions = demande.getPropositions();
+
+                        // Check if there are propositions available
+                        if (!propositions.isEmpty()) {
+                                // Get a random proposition
+                                int randomIndex = faker.number().numberBetween(0, propositions.size());
+                                Proposition proposition = propositions.get(randomIndex);
+
+                                // Create and save DemandeOrder for this Demande
+                                DemandeOrder demandeOrder = DemandeOrder.builder()
+                                                .proposition(proposition)
+                                                .status(OrderStatus.NEW)
+                                                .orderDate(new Date())
+                                                .build();
+
+                                // Save the DemandeOrder
+                                demandeOrderRepository.save(demandeOrder);
+                        } else {
+                                // Optionally handle the case where there are no propositions
+                                System.out.println("No propositions available for Demande ID: " + demande.getId());
+                        }
+                }
+        }
+
 }

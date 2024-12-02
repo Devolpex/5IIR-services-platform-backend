@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 import org._iir.backend.modules.demande.Demande;
+import org._iir.backend.modules.order.demande.DemandeOrder;
 import org._iir.backend.modules.prestataire.Prestataire;
 
 import jakarta.persistence.*;
@@ -34,6 +35,9 @@ public class Proposition {
     @ManyToOne
     @JoinColumn(name = "prestataire_id")
     private Prestataire prestataire;
+
+    @OneToOne(mappedBy = "proposition")
+    private DemandeOrder demandeOrder;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
