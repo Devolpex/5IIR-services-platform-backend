@@ -36,7 +36,7 @@ public class SecurityConfig {
         // Endpoints
         private final static String[] PUBLIC_ENDPOINTS = {
                         "/api/auth/**",
-                        "/api/auth/registration/verify",
+                        "/registration/verify",
                         "/api/debug/**",
         };
 
