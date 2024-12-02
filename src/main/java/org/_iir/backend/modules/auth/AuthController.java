@@ -4,10 +4,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org._iir.backend.exception.UserAleradyExistException;
 import org._iir.backend.modules.auth.mail.error.RegistrationError;
-import org._iir.backend.modules.user.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,9 +22,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class AuthController {
     private final AuthService authService;
-
-    @Autowired
-    private UserService userService;
 
     // Logger
     private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
