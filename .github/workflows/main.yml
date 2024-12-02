@@ -35,3 +35,15 @@ jobs:
       # Step 4: Run tests
       - name: Run Tests
         run: mvn test
+     # Step 5: SonarQube Scan for Code Quality Analysis
+      - name: SonarQube Scan
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: mvn sonar:sonar \
+            -Dsonar.projectKey=Devolpex_5IIR-services-platform-backend \
+            -Dsonar.sources=. \
+            -Dsonar.java.binaries=bin \
+            -Dsonar.host.url=https://sonarcloud.io \
+            -Dsonar.organization=devolpex \
+            -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
+            -Dsonar.sourceEncoding=UTF-8
