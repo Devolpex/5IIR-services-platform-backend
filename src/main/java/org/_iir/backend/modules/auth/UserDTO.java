@@ -16,4 +16,5 @@ public class UserDTO {
     private String email;
     private Role role;
     private String token;
+    private boolean isVerified;
 }

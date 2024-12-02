@@ -106,6 +106,7 @@ public class AuthService {
                 .email(user.getEmail())
                 .role(user.getRole())
                 .token(token)
+                .isVerified(user.isAccountVerified())
                 .build();
     }
 
