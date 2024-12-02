@@ -35,7 +35,8 @@ public class SecurityConfig {
 
         // Endpoints
         private final static String[] PUBLIC_ENDPOINTS = {
-                        "/api/auth/login",
+                        "/api/auth/**",
+                        "/api/auth/registration/verify",
                         "/api/debug/**",
         };
 
@@ -68,6 +69,11 @@ public class SecurityConfig {
                                 .requestMatchers(USERS_ENDPOINTS).hasAuthority(ADMIN)
                                 // .requestMatchers(OFFRE_ORDER_ENDPOINTS).authenticated()
                                 // .hasAnyAuthority(ADMIN, DEMANDEUR)
+
+                                // Proposition Endpoints
+                                .requestMatchers(HttpMethod.POST, "/api/proposition").hasAuthority(PRESTATAIRE)
+                                .requestMatchers(HttpMethod.DELETE, "/api/proposition/{id}").hasAuthority(PRESTATAIRE)
+                                .requestMatchers(HttpMethod.GET, "/api/proposition/{id}").hasAuthority(PRESTATAIRE)
 
                                 // Order Offre Endpoints
                                 .requestMatchers(HttpMethod.POST, "/api/order/offer").hasAuthority(DEMANDEUR)
