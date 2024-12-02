@@ -37,17 +37,14 @@ jobs:
         run: mvn test
      # Step 5: SonarQube Scan for Code Quality Analysis
       - name: SonarQube Scan
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           mvn clean install
-          mvn sonar:sonar \
-            -Dsonar.projectKey=Devolpex_5IIR-services-platform-backend \
-            -Dsonar.sources=src/main/java \
-            -Dsonar.tests=src/test/java \
-            -Dsonar.sources=. \
-            -Dsonar.java.binaries=target/classes \
-            -Dsonar.host.url=https://sonarcloud.io \
-            -Dsonar.organization=devolpex \
-            -Dsonar.sourceEncoding=UTF-8
-
+          mvn sonar:sonar -Dsonar.projectKey=Devolpex_5IIR-services-platform-backend \
+                                     -Dsonar.organization=devolpex \
+                                     -Dsonar.host.url=https://sonarcloud.io \
+                                     -Dsonar.sources=src/main/java \
+                                     -Dsonar.tests=src/test/java \
+                                     -Dsonar.exclusions=src/test/** \
+                                     -Dsonar.java.binaries=target \
+                                     -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+          
