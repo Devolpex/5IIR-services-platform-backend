@@ -34,14 +34,12 @@ public class PropositionService implements IService<Proposition, PropositionDto,
     
 
     public PropositionDto create(PropositionSaveReq request) {
+        Prestataire prestataire = (Prestataire) userService.getAuthenticatedUser();
         Demande demande = demandeRepository.findById(request.demandeId())
             .orElseThrow(() ->{
                 log.error("Demande with id {} not found",request.demandeId());
                 return new OwnNotFoundException("Demande not exists");
             });
-        
-        Prestataire prestataire = (Prestataire) userService.getAuthenticatedUser();
-
 
         Proposition proposition = Proposition.builder()
             .tarifProposer(request.tarifProposer())
@@ -78,6 +76,11 @@ public class PropositionService implements IService<Proposition, PropositionDto,
 
     @Override
     public void delete(Long id) {
+        Prestataire prestataire = (Prestataire) userService.getAuthenticatedUser();
+        if (!prestataire.getPropositions().stream().anyMatch(p -> p.getId().equals(id))) {
+            logger.error("PropositionService not found for id : {}", id);
+            throw new OwnNotFoundException("Proposition not found for the authenticated user");
+        }
         repository.findById(id)
         .ifPresentOrElse(
                 // Delete the PropositionService
@@ -91,6 +94,14 @@ public class PropositionService implements IService<Proposition, PropositionDto,
 
     @Override
     public PropositionDto findById(Long id) {
+        
+        Prestataire prestataire = (Prestataire) userService.getAuthenticatedUser();
+
+        if (!prestataire.getPropositions().stream().anyMatch(p -> p.getId().equals(id))) {
+            logger.error("PropositionService not found for id : {}", id);
+            throw new OwnNotFoundException("Proposition not found for the authenticated user");
+        }
+        
         return repository.findById(id)
                 .map(mapper::toDTO)
                 .orElseThrow(() -> {
