@@ -33,6 +33,7 @@ public class PropositionController {
             return ResponseEntity.status(HttpStatus.OK).body(dto);
         }
 
+        @PreAuthorize("hasAuthority('PRESTATAIRE')")
         @DeleteMapping("/api/proposition/{id}")
         public ResponseEntity<Void> delete(@PathVariable Long id) {
             service.delete(id);
