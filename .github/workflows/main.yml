@@ -39,11 +39,13 @@ jobs:
       - name: SonarQube Scan
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn sonar:sonar \
+        run: |
+          mvn clean install
+          mvn sonar:sonar \
             -Dsonar.projectKey=Devolpex_5IIR-services-platform-backend \
             -Dsonar.sources=. \
-            -Dsonar.java.binaries=bin \
+            -Dsonar.java.binaries=target/classes \
             -Dsonar.host.url=https://sonarcloud.io \
             -Dsonar.organization=devolpex \
-            -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
             -Dsonar.sourceEncoding=UTF-8
+
