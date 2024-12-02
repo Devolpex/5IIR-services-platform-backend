@@ -8,7 +8,8 @@ import org._iir.backend.modules.demande.Demande;
 import org._iir.backend.modules.demande.DemandeRepository;
 import org._iir.backend.modules.prestataire.Prestataire;
 import org._iir.backend.modules.proposition.dto.PropositionDto;
-import org._iir.backend.modules.proposition.dto.PropositionReq;
+import org._iir.backend.modules.proposition.dto.PropositionSaveReq;
+import org._iir.backend.modules.proposition.dto.PropositionUpdateReq;
 import org._iir.backend.modules.user.UserService;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
@@ -22,7 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class PropositionService implements IService<Proposition, PropositionDto, PropositionReq, PropositionReq, Long> {
+public class PropositionService implements IService<Proposition, PropositionDto, PropositionSaveReq, PropositionUpdateReq, Long> {
     //Logger
     private final Logger logger = LoggerFactory.getLogger(getClass().getName());
     
@@ -32,7 +33,7 @@ public class PropositionService implements IService<Proposition, PropositionDto,
     private final DemandeRepository demandeRepository;
     
 
-    public PropositionDto create(PropositionReq request) {
+    public PropositionDto create(PropositionSaveReq request) {
         Demande demande = demandeRepository.findById(request.demandeId())
             .orElseThrow(() ->{
                 log.error("Demande with id {} not found",request.demandeId());
@@ -54,8 +55,25 @@ public class PropositionService implements IService<Proposition, PropositionDto,
     }
 
     @Override
-    public PropositionDto update(PropositionReq req, Long id) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public PropositionDto update(PropositionUpdateReq req, Long id) {
+        
+        Prestataire prestataire = (Prestataire) userService.getAuthenticatedUser();
+        if (!prestataire.getPropositions().stream().anyMatch(p -> p.getId().equals(id))) {
+            logger.error("PropositionService not found for id : {}", id);
+            throw new OwnNotFoundException("Proposition not found for the authenticated user");
+        }
+
+        Proposition proposition = repository.findById(id)
+                .orElseThrow(() -> {
+                    logger.error("PropositionService not found for id : {}", id);
+                    throw new OwnNotFoundException("PropositionService not found");
+                });
+
+        proposition.setDescription(req.description());
+        proposition.setTarifProposer(req.tarifProposer());
+        proposition.setDisponibiliteProposer(req.dateDisponibilite());
+
+        return mapper.toDTO(repository.save(proposition));
     }
 
     @Override
