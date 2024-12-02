@@ -35,7 +35,8 @@ public class SecurityConfig {
 
         // Endpoints
         private final static String[] PUBLIC_ENDPOINTS = {
-                        "/api/auth/login",
+                        "/api/auth/**",
+                        "/api/auth/registration/verify",
                         "/api/debug/**",
         };
 
@@ -69,14 +70,18 @@ public class SecurityConfig {
                                 // .requestMatchers(OFFRE_ORDER_ENDPOINTS).authenticated()
                                 // .hasAnyAuthority(ADMIN, DEMANDEUR)
 
+                                // Proposition Endpoints
+                                .requestMatchers(HttpMethod.POST, "/api/proposition").hasAuthority(PRESTATAIRE)
+                                .requestMatchers(HttpMethod.DELETE, "/api/proposition/{id}").hasAuthority(PRESTATAIRE)
+                                .requestMatchers(HttpMethod.GET, "/api/proposition/{id}").hasAuthority(PRESTATAIRE)
+
                                 // Order Offre Endpoints
                                 .requestMatchers(HttpMethod.POST, "/api/order/offer").hasAuthority(DEMANDEUR)
                                 .requestMatchers(HttpMethod.GET, "/api/order/offer/{id}").hasAuthority(ADMIN)
                                 .requestMatchers(HttpMethod.GET, "/api/order/offer").hasAuthority(ADMIN)
                                 .requestMatchers(HttpMethod.GET, "/api/order/offer/list").hasAuthority(ADMIN)
                                 .requestMatchers(HttpMethod.GET, "/api/order/offer/user")
-                                .hasAuthority(DEMANDEUR)
-                                // .hasAnyAuthority(PRESTATAIRE, DEMANDEUR)
+                                .hasAnyAuthority(DEMANDEUR, PRESTATAIRE)
                                 .requestMatchers(HttpMethod.PATCH, "/api/order/offer/confirm/{id}")
                                 .hasAuthority(PRESTATAIRE)
                                 .requestMatchers(HttpMethod.PATCH, "/api/order/offer/cancel/{id}")

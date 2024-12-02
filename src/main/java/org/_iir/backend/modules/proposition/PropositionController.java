@@ -18,6 +18,7 @@ public class PropositionController {
     
         private final PropositionService service;
     
+        @PreAuthorize("hasAuthority('PRESTATAIRE')")
         @PostMapping("/api/proposition")
         public ResponseEntity<PropositionDto> create(@RequestBody @Valid PropositionSaveReq request) {
             PropositionDto dto = service.create(request);
@@ -38,6 +39,7 @@ public class PropositionController {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }
 
+        @PreAuthorize("hasAuthority('PRESTATAIRE')")
         @GetMapping("/api/proposition/{id}")
         public ResponseEntity<PropositionDto> findById(
                 @PathVariable Long id) {

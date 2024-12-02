@@ -106,21 +106,23 @@ public class OffreOrderServiceImpl implements IOrder<OrderOffre, OffreOrderDTO, 
         User user = userService.getAuthenticatedUser();
         if (user.getRole().equals(Role.DEMANDEUR)) {
             Demandeur demandeur = (Demandeur) user;
-            return demandeur.getOffreOrders()
-                    .stream()
-                    .map(orderMapper::toDTO)
-                    .toList();
+            log.info("Demandeur From Order Service: {}", demandeur);
+            // return demandeur.getOffreOrders()
+            //         .stream()
+            //         .map(orderMapper::toDTO)
+            //         .toList();
         } else if (user.getRole().equals(Role.PRESTATAIRE)) {
             Prestataire prestataire = (Prestataire) user;
-            Set<Offre> offres = new HashSet<>();
-            prestataire.getPrestataireServices()
-                    .forEach(prestataireService -> {
-                        offres.addAll(prestataireService.getOffres());
-                    });
-            return offres.stream()
-                    .flatMap(offre -> offre.getOrders().stream())
-                    .map(orderMapper::toDTO)
-                    .toList();
+            log.info("Prestataire From Order Service: {}", prestataire);
+            // Set<Offre> offres = new HashSet<>();
+            // prestataire.getPrestataireServices()
+            //         .forEach(prestataireService -> {
+            //             offres.addAll(prestataireService.getOffres());
+            //         });
+            // return offres.stream()
+            //         .flatMap(offre -> offre.getOrders().stream())
+            //         .map(orderMapper::toDTO)
+            //         .toList();
 
         }
         return null;
