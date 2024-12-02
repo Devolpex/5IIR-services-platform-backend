@@ -6,7 +6,6 @@ import java.util.List;
 import org._iir.backend.modules.demande.Demande;
 import org._iir.backend.modules.demande.DemandeRepository;
 import org._iir.backend.modules.demandeur.Demandeur;
-import org._iir.backend.modules.demandeur.DemandeurRepository;
 import org._iir.backend.modules.offre.Offre;
 import org._iir.backend.modules.offre.OffreRepository;
 import org._iir.backend.modules.order.OrderStatus;
@@ -16,20 +15,21 @@ import org._iir.backend.modules.order.offre.OffreOrderRepository;
 import org._iir.backend.modules.order.offre.OrderOffre;
 import org._iir.backend.modules.prestataire.Prestataire;
 import org._iir.backend.modules.prestataire.PrestataireDao;
-import org._iir.backend.modules.service.Service;
+import org._iir.backend.modules.prestataire_services.PrestataireServiceID;
 import org._iir.backend.modules.prestataire_services.PrestataireServices;
 import org._iir.backend.modules.prestataire_services.PrestataireServicesRepository;
-import org._iir.backend.modules.prestataire_services.PrestataireServiceID;
 import org._iir.backend.modules.proposition.Proposition;
 import org._iir.backend.modules.proposition.PropositionDao;
+import org._iir.backend.modules.service.Service;
+import org._iir.backend.modules.service.ServiceRepository;
 import org._iir.backend.modules.user.Role;
 import org._iir.backend.modules.user.User;
 import org._iir.backend.modules.user.UserRepository;
-import org._iir.backend.modules.service.ServiceRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
 import com.github.javafaker.Faker;
 
 import lombok.RequiredArgsConstructor;
@@ -63,6 +63,7 @@ public class DatabaseInit {
                                         .email("admin@gmail.com")
                                         .password(passwordEncoder.encode(PASSWORD))
                                         .role(Role.ADMIN)
+                                        .accountVerified(true)
                                         .build();
                         userRepository.save(user);
 
@@ -73,6 +74,7 @@ public class DatabaseInit {
                                         .email("prestataire@gmail.com")
                                         .password(passwordEncoder.encode(PASSWORD))
                                         .role(Role.PRESTATAIRE)
+                                        .accountVerified(true)
                                         .build();
                         userRepository.save(prestataire);
 
@@ -83,6 +85,7 @@ public class DatabaseInit {
                                         .email("demandeur@gmail.com")
                                         .password(passwordEncoder.encode(PASSWORD))
                                         .role(Role.DEMANDEUR)
+                                        .accountVerified(true)
                                         .build();
                         userRepository.save(demandeur);
 
@@ -247,6 +250,7 @@ public class DatabaseInit {
                                         .email("prestataire" + i + "@gmail.com")
                                         .password(passwordEncoder.encode(PASSWORD))
                                         .role(Role.PRESTATAIRE)
+                                        .accountVerified(true)
                                         .build();
                         userRepository.save(prestataire);
                 }
