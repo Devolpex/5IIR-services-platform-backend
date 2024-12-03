@@ -74,6 +74,8 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.POST, "/api/proposition").hasAuthority(PRESTATAIRE)
                                 .requestMatchers(HttpMethod.DELETE, "/api/proposition/{id}").hasAuthority(PRESTATAIRE)
                                 .requestMatchers(HttpMethod.GET, "/api/proposition/{id}").hasAuthority(PRESTATAIRE)
+                                .requestMatchers(HttpMethod.GET, "/api/proposition/demande/{demandeId}").authenticated()
+                                .requestMatchers(HttpMethod.PUT, "/api/proposition/{id}").hasAuthority(PRESTATAIRE)
 
                                 // Order Offre Endpoints
                                 .requestMatchers(HttpMethod.POST, "/api/order/offer").hasAuthority(DEMANDEUR)

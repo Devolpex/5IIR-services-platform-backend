@@ -1,6 +1,7 @@
 package org._iir.backend.modules.proposition;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org._iir.backend.exception.OwnNotFoundException;
 import org._iir.backend.interfaces.IService;
@@ -108,6 +109,14 @@ public class PropositionService implements IService<Proposition, PropositionDto,
                     logger.error("PropositionService not found for id : {}", id);
                     throw new OwnNotFoundException("PropositionService not found");
                 });
+    }
+
+    
+    public List<PropositionDto> findListByDemande(Long id) {
+        return repository.findByDemandeId(id)
+                .stream()
+                .map(mapper::toDTO)
+                .collect(Collectors.toList());
     }
 
     @Override
