@@ -1,5 +1,7 @@
 package org._iir.backend.modules.proposition;
 
+import java.util.List;
+
 import org._iir.backend.modules.proposition.dto.PropositionDto;
 import org._iir.backend.modules.proposition.dto.PropositionSaveReq;
 import org._iir.backend.modules.proposition.dto.PropositionUpdateReq;
@@ -14,19 +16,20 @@ import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/api/proposition")
 public class PropositionController {
     
         private final PropositionService service;
     
         @PreAuthorize("hasAuthority('PRESTATAIRE')")
-        @PostMapping("/api/proposition")
+        @PostMapping
         public ResponseEntity<PropositionDto> create(@RequestBody @Valid PropositionSaveReq request) {
             PropositionDto dto = service.create(request);
             return ResponseEntity.status(HttpStatus.CREATED).body(dto);
         }
 
         @PreAuthorize("hasAuthority('PRESTATAIRE')")
-        @PutMapping("/api/proposition/{id}")
+        @PutMapping("/{id}")
         public ResponseEntity<PropositionDto> update(@PathVariable Long id,
                 @RequestBody @Valid PropositionUpdateReq request) {
             PropositionDto dto = service.update(request, id);
@@ -34,17 +37,25 @@ public class PropositionController {
         }
 
         @PreAuthorize("hasAuthority('PRESTATAIRE')")
-        @DeleteMapping("/api/proposition/{id}")
+        @DeleteMapping("/{id}")
         public ResponseEntity<Void> delete(@PathVariable Long id) {
             service.delete(id);
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }
 
         @PreAuthorize("hasAuthority('PRESTATAIRE')")
-        @GetMapping("/api/proposition/{id}")
+        @GetMapping("/{id}")
         public ResponseEntity<PropositionDto> findById(
                 @PathVariable Long id) {
             PropositionDto dto = service.findById(id);
+            return ResponseEntity.status(HttpStatus.OK).body(dto);
+        }
+
+        @PreAuthorize("hasAuthority('ADMIN','PRESTATAIRE','DEMANDEUR')")
+        @GetMapping("/demande/{demandeId}")
+        public ResponseEntity<List<PropositionDto>> findByDemandeId(
+                @PathVariable Long demandeId) {
+            List<PropositionDto> dto = service.findListByDemande(demandeId);
             return ResponseEntity.status(HttpStatus.OK).body(dto);
         }
         

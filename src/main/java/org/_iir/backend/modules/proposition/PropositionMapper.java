@@ -2,6 +2,7 @@ package org._iir.backend.modules.proposition;
 
 import org._iir.backend.interfaces.IMapper;
 import org._iir.backend.modules.proposition.dto.DemandeDto;
+import org._iir.backend.modules.proposition.dto.DemandeurDto;
 import org._iir.backend.modules.proposition.dto.PrestataireDto;
 import org._iir.backend.modules.proposition.dto.PropositionDto;
 
@@ -24,12 +25,20 @@ public class PropositionMapper implements IMapper<Proposition, PropositionDto> {
                 .description(entity.getDescription())   
                 .tarifProposer(entity.getTarifProposer())
                 .dateDisponible(entity.getDisponibiliteProposer())
-                .demandeDto(DemandeDto.builder()
+                .demande(DemandeDto.builder()
                         .id(entity.getDemande().getId())
+                        .service(entity.getDemande().getService())
                         .description(entity.getDemande().getDescription())
                         .dateDisponible(entity.getDemande().getDateDisponible())
+                        .lieu(entity.getDemande().getLieu())
+                        .demandeur(DemandeurDto.builder()
+                                .id(entity.getDemande().getDemandeur().getId())
+                                .nom(entity.getDemande().getDemandeur().getNom())
+                                .build())
+                        .createdAt(entity.getDemande().getCreatedAt())
+                        .updatedAt(entity.getDemande().getUpdatedAt())
                         .build())
-                .prestataireDto(PrestataireDto.builder()
+                .prestataire(PrestataireDto.builder()
                         .id(entity.getPrestataire().getId())
                         .email(entity.getPrestataire().getEmail())
                         .build())

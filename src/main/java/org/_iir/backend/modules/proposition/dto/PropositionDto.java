@@ -17,8 +17,8 @@ public class PropositionDto {
     private String description;
     private Double tarifProposer;
     private Date dateDisponible;
-    private DemandeDto demandeDto;
-    private PrestataireDto prestataireDto;
+    private DemandeDto demande;
+    private PrestataireDto prestataire;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }
