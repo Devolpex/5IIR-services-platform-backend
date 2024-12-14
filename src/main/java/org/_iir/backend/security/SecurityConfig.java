@@ -38,6 +38,7 @@ public class SecurityConfig {
                         "/api/auth/**",
                         "/registration/verify",
                         "/api/debug/**",
+                        "/error/**",
         };
 
         private final static String[] USERS_ENDPOINTS = {
@@ -65,6 +66,8 @@ public class SecurityConfig {
 
                 // Authorizations
                 http.authorizeHttpRequests(authorizeRequests -> authorizeRequests
+                                // Allow Option Requests
+                                .antMatchers(HttpMethod.OPTIONS,"/**").permitAll()
                                 .requestMatchers(PUBLIC_ENDPOINTS).permitAll()
                                 .requestMatchers(USERS_ENDPOINTS).hasAuthority(ADMIN)
                                 // .requestMatchers(OFFRE_ORDER_ENDPOINTS).authenticated()
@@ -100,6 +103,9 @@ public class SecurityConfig {
                                 .hasAuthority(PRESTATAIRE)
                                 .requestMatchers(HttpMethod.PATCH, "/api/order/demande/{id}/cancel")
                                 .hasAnyAuthority(PRESTATAIRE, DEMANDEUR)
+
+                                // Offre Endpoints
+                                .requestMatchers(HttpMethod.POST, "/api/offres").hasAuthority(PRESTATAIRE)
                                 .requestMatchers(ACCOUNT_ENDPOINTS).authenticated()
                                 .anyRequest().authenticated());
                 return http.build();
