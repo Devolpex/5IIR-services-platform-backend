@@ -67,7 +67,7 @@ public class SecurityConfig {
                 // Authorizations
                 http.authorizeHttpRequests(authorizeRequests -> authorizeRequests
                                 // Allow Option Requests
-                                .antMatchers(HttpMethod.OPTIONS,"/**").permitAll()
+                                .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
                                 .requestMatchers(PUBLIC_ENDPOINTS).permitAll()
                                 .requestMatchers(USERS_ENDPOINTS).hasAuthority(ADMIN)
                                 // .requestMatchers(OFFRE_ORDER_ENDPOINTS).authenticated()
