@@ -39,6 +39,9 @@ public class SecurityConfig {
                         "/registration/verify",
                         "/api/debug/**",
                         "/error/**",
+                        "/v3/api-docs/**",
+                        "/swagger-ui/**",
+                        "/swagger-ui.html",
         };
 
         private final static String[] USERS_ENDPOINTS = {
