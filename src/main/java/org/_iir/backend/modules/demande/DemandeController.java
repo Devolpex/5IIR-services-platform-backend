@@ -1,5 +1,7 @@
 package org._iir.backend.modules.demande;
 
+import java.util.List;
+
 import org._iir.backend.modules.demande.dto.DemandeDTO;
 import org._iir.backend.modules.demande.dto.DemandeREQ;
 import org.springframework.data.domain.Page;
@@ -52,7 +54,6 @@ public class DemandeController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-
     @GetMapping("/api/demande")
     public ResponseEntity<Page<DemandeDTO>> findAll(
             @RequestParam(defaultValue = "1") int page,
@@ -64,6 +65,12 @@ public class DemandeController {
         Page<DemandeDTO> result = service.findPage(pageable);
         return ResponseEntity.status(HttpStatus.OK).body(result);
 
+    }
+
+    @GetMapping("/api/demande/list")
+    public ResponseEntity<List<DemandeDTO>> findList() {
+        List<DemandeDTO> result = service.findList();
+        return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
 }
