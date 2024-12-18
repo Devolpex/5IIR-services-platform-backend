@@ -1,0 +1,26 @@
+name: cartes_g5
+description: Un projet Flutter pour afficher une carte avec des marqueurs.
+
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_map: ^6.1.0
+  latlong2: ^0.9.1
+  http: ^1.1.0
+
+  # Lints pour de bonnes pratiques
+  flutter_lints: ^4.0.0
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
