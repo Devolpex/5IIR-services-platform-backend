@@ -1,0 +1,50 @@
+name: CI/CD Pipeline for Backend
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  test:
+    name: Test Application
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Check out the code
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # Step 2: Set up JDK 21
+      - name: Setup Java JDK
+        uses: actions/setup-java@v4.4.0
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          java-package: 'jdk'
+      # Step 3: Cache Maven dependencies
+      - name: Cache Maven Dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      # Step 4: Run tests
+      - name: Run Tests
+        run: mvn test
+     # Step 5: SonarQube Scan for Code Quality Analysis
+      - name: SonarQube Scan
+        run: |
+          mvn clean install
+          mvn sonar:sonar -Dsonar.projectKey=Devolpex_5IIR-services-platform-backend \
+                                     -Dsonar.organization=devolpex \
+                                     -Dsonar.host.url=https://sonarcloud.io \
+                                     -Dsonar.sources=src/main/java \
+                                     -Dsonar.tests=src/test/java \
+                                     -Dsonar.exclusions=src/test/** \
+                                     -Dsonar.java.binaries=target \
+                                     -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+          

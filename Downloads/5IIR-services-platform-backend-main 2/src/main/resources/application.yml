@@ -1,0 +1,44 @@
+spring:
+  application:
+    name: service-platform
+  datasource:
+    url: jdbc:mysql://localhost:3310/jaim_db?createDatabaseIfNotExist=true
+    username: user
+    password: password
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: devolpex@gmail.com
+    password: jqxpocbfpqtietqq
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+server:
+  port: 8081
+
+cors:
+  allowed-origin: http://localhost:4200
+
+logging:
+  level:
+    org.springframework.web: TRACE      
+    org.springframework.security: TRACE
+    root: INFO   
+springdoc:
+  api-docs:
+    enabled: true
+    version: OPENAPI_3_0
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
