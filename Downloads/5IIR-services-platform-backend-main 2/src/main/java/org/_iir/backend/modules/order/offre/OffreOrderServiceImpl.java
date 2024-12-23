@@ -128,28 +128,37 @@ public class OffreOrderServiceImpl implements IOrder<OrderOffre, OffreOrderDTO, 
         return null;
     }
 
+
     @Override
     public OffreOrderDTO confirmOrder(Long orderId) {
+        // Récupérer l'utilisateur authentifié
         User user = userService.getAuthenticatedUser();
-        Prestataire prestataire = (Prestataire) user;
+
+        // Récupérer la commande par son ID
         OrderOffre order = orderRepository.findById(orderId)
                 .orElseThrow(() -> {
                     log.error("Order not found with id: {}", orderId);
                     return new OwnNotFoundException("Order not found");
                 });
-        // Check if the prestataire is the owner of the offre
-        if (order.getOffre().getPrestataireService().getPrestataire().getId().equals(prestataire.getId())) {
 
+        // Vérification : L'utilisateur est-il un demandeur ?
+        if (user instanceof Demandeur demandeur) {
+            // Vérifiez que le demandeur est associé à cette commande
+            if (!order.getDemandeur().getId().equals(demandeur.getId())) {
+                throw new OwnNotFoundException("Vous n'êtes pas le propriétaire de cette commande");
+            }
+
+            // Confirmer la commande
             order.setStatus(OrderStatus.CONFIRMED);
             order = orderRepository.save(order);
 
-            // Sent Email confirmation to the demandeur
-            // Sent Email notification to the prestataire
+            log.info("Commande confirmée par le demandeur avec ID : {}", demandeur.getId());
             return orderMapper.toDTO(order);
         } else {
-            throw new OwnNotFoundException("You are not the owner of the offre");
+            throw new OwnNotFoundException("Seul un demandeur peut confirmer une commande");
         }
     }
+
 
     @Override
     public OffreOrderDTO cancelOrder(Long orderId) {

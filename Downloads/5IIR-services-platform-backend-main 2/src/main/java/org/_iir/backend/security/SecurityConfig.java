@@ -84,19 +84,17 @@ public class SecurityConfig {
                                 .requestMatchers(HttpMethod.PUT, "/api/proposition/{id}").hasAuthority(PRESTATAIRE)
 
                                 // Order Offre Endpoints
-                                .requestMatchers(HttpMethod.POST, "/api/order/offer").hasAuthority(DEMANDEUR)
-                                .requestMatchers(HttpMethod.GET, "/api/order/offer/{id}").hasAuthority(ADMIN)
-                                .requestMatchers(HttpMethod.GET, "/api/order/offer").hasAuthority(ADMIN)
-                                .requestMatchers(HttpMethod.GET, "/api/order/offer/list").hasAuthority(ADMIN)
-                                .requestMatchers(HttpMethod.GET, "/api/order/offer/user")
-                                .hasAnyAuthority(DEMANDEUR, PRESTATAIRE)
-                                .requestMatchers(HttpMethod.PATCH, "/api/order/offer/confirm/{id}")
-                                .hasAuthority(DEMANDEUR)
-                                .requestMatchers(HttpMethod.PATCH, "/api/order/offer/cancel/{id}")
-                                .hasAuthority(PRESTATAIRE)
-                                .requestMatchers(HttpMethod.DELETE, "/api/order/offer/{id}").hasAuthority(ADMIN)
+                        // Order Offre Endpoints
+                        .requestMatchers(HttpMethod.POST, "/api/order/offer").hasAuthority(DEMANDEUR)
+                        .requestMatchers(HttpMethod.GET, "/api/order/offer/{id}").hasAuthority(ADMIN)
+                        .requestMatchers(HttpMethod.GET, "/api/order/offer").hasAuthority(ADMIN)
+                        .requestMatchers(HttpMethod.GET, "/api/order/offer/list").hasAuthority(ADMIN)
+                        .requestMatchers(HttpMethod.GET, "/api/order/offer/user").hasAnyAuthority(DEMANDEUR, PRESTATAIRE)
+                        .requestMatchers(HttpMethod.PATCH, "/api/order/offer/confirm/{id}").hasAuthority(DEMANDEUR)
+                        .requestMatchers(HttpMethod.PATCH, "/api/order/offer/cancel/{id}").hasAuthority(PRESTATAIRE)
+                        .requestMatchers(HttpMethod.DELETE, "/api/order/offer/{id}").hasAuthority(ADMIN)
 
-                                // Order Demande Endpoints
+                        // Order Demande Endpoints
                                 .requestMatchers(HttpMethod.POST, "/api/order/demande").hasAuthority(DEMANDEUR)
                                 .requestMatchers(HttpMethod.GET, "/api/order/demande/{id}").hasAuthority(ADMIN)
                                 .requestMatchers(HttpMethod.GET, "/api/order/demande").hasAuthority(ADMIN)
