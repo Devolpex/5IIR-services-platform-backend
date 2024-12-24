@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "670095601156",
+    "project_id": "iir-services-platform-mobile",
+    "storage_bucket": "iir-services-platform-mobile.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:670095601156:android:9a3629d9c259ea1d388f51",
+        "android_client_info": {
+          "package_name": "com.devolpex.jaimservices"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDzIQeVm0doMwN4lJWkuwisZDE1jZCTAhc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
