@@ -182,5 +182,47 @@ public class OffreOrderServiceImpl implements IOrder<OrderOffre, OffreOrderDTO, 
             throw new OwnNotFoundException("You are not the owner of the offre");
         }
     }
+    public List<OffreOrderDTO> findConfirmedOffersByPrestataire() {
+        // Récupérer l'utilisateur authentifié
+        User user = userService.getAuthenticatedUser();
 
+        if (user instanceof Prestataire prestataire) {
+            // Récupérer les offres confirmées pour ce prestataire
+            return prestataire.getPrestataireServices()
+                    .stream()
+                    .flatMap(prestataireService -> prestataireService.getOffres().stream())
+                    .filter(offre -> offre.getOrders().stream().anyMatch(order -> order.getStatus() == OrderStatus.CONFIRMED))
+                    .flatMap(offre -> offre.getOrders().stream())
+                    .filter(order -> order.getStatus() == OrderStatus.CONFIRMED)
+                    .map(orderMapper::toDTO)
+                    .toList();
+        } else {
+            throw new OwnNotFoundException("Seul un prestataire peut voir ses offres confirmées.");
+        }
+    }
+    public List<OffreOrderDTO> getConfirmedOffersByPrestataire() {
+        User user = userService.getAuthenticatedUser();
+
+        if (!(user instanceof Prestataire prestataire)) {
+            log.error("L'utilisateur authentifié n'est pas un prestataire : {}", user.getEmail());
+            throw new OwnNotFoundException("Seul un prestataire peut voir ses offres confirmées.");
+        }
+
+        Long prestataireId = prestataire.getId();
+        log.info("Récupération des offres confirmées pour le prestataire avec ID : {}", prestataireId);
+
+        List<OrderOffre> confirmedOrders = orderRepository.findByOffrePrestataireServicePrestataireIdAndStatus(
+                prestataireId,
+                OrderStatus.CONFIRMED
+        );
+
+        if (confirmedOrders.isEmpty()) {
+            log.info("Aucune offre confirmée trouvée pour le prestataire avec ID : {}", prestataireId);
+            return List.of(); // Retourner une liste vide si aucune commande confirmée n'existe
+        }
+
+        return confirmedOrders.stream()
+                .map(orderMapper::toDTO)
+                .toList();
+    }
 }

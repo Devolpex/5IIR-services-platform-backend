@@ -2,6 +2,7 @@ package org._iir.backend.modules.order.offre;
 
 import java.util.List;
 
+import org._iir.backend.modules.order.dto.DemandeOrderDTO;
 import org._iir.backend.modules.order.dto.OffreOrderDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -92,5 +93,12 @@ public class OffreOrderController {
         service.delete(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
+    @GetMapping("/confirmed/my-offers")
+    @PreAuthorize("hasAuthority('PRESTATAIRE')")
+    public ResponseEntity<List<OffreOrderDTO>> getConfirmedOffersByPrestataire() {
+        List<OffreOrderDTO> confirmedOffers = service.getConfirmedOffersByPrestataire();
+        return ResponseEntity.ok(confirmedOffers);
+    }
+
 
 }

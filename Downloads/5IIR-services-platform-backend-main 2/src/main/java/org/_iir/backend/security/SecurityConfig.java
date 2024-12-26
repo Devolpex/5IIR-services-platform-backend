@@ -104,6 +104,7 @@ public class SecurityConfig {
                                 .hasAuthority(PRESTATAIRE)
                                 .requestMatchers(HttpMethod.PATCH, "/api/order/demande/{id}/cancel")
                                 .hasAnyAuthority(PRESTATAIRE, DEMANDEUR)
+                        .requestMatchers(HttpMethod.GET, "/api/order/demande/my-approved").hasAuthority(DEMANDEUR)
 
                                 // Offre Endpoints
                                 .requestMatchers(HttpMethod.POST, "/api/offres").hasAuthority(PRESTATAIRE)
