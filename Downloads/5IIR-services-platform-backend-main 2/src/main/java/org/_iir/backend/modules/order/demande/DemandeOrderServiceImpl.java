@@ -6,6 +6,7 @@ import java.util.List;
 
 import org._iir.backend.exception.OwnNotFoundException;
 import org._iir.backend.modules.demande.Demande;
+import org._iir.backend.modules.demande.DemandeRepository;
 import org._iir.backend.modules.demandeur.Demandeur;
 import org._iir.backend.modules.order.IOrder;
 import org._iir.backend.modules.order.OrderStatus;
@@ -16,6 +17,8 @@ import org._iir.backend.modules.proposition.PropositionDao;
 import org._iir.backend.modules.user.Role;
 import org._iir.backend.modules.user.User;
 import org._iir.backend.modules.user.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -28,6 +31,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class DemandeOrderServiceImpl
         implements IOrder<DemandeOrder, DemandeOrderDTO, DemandeOrderREQ, DemandeOrderREQ, Long> {
+    private static final Logger logger = LoggerFactory.getLogger(DemandeOrderServiceImpl.class);
+    private final DemandeRepository demandeRepository;
 
     private final DemandeOrderRepository orderRepository;
     private final DemandeOrderMapperImpl orderMapper;
@@ -231,4 +236,16 @@ public class DemandeOrderServiceImpl
         return orderMapper.toDTO(order);
     }
 
+
+    public List<DemandeOrderDTO> getConfirmedDemandesByDemandeur() {
+        User user = userService.getAuthenticatedUser();
+        if (user instanceof Demandeur demandeur) {
+            return orderRepository
+                    .findByPropositionDemandeDemandeurEmailAndStatus(demandeur.getEmail(), OrderStatus.CONFIRMED)
+                    .stream()
+                    .map(orderMapper::toDTO)
+                    .toList();
+        }
+        throw new OwnNotFoundException("Seul un demandeur peut consulter ses demandes approuvées.");
+    }
 }

@@ -93,5 +93,11 @@ public class DemandeOrderController {
         DemandeOrderDTO order = service.cancelOrder(id);
         return ResponseEntity.status(HttpStatus.OK).body(order);
     }
+    @GetMapping("/confirmed/my-demandes")
+    @PreAuthorize("hasAuthority('DEMANDEUR')")
+    public ResponseEntity<List<DemandeOrderDTO>> getConfirmedDemandesByDemandeur() {
+        List<DemandeOrderDTO> confirmedDemandes = service.getConfirmedDemandesByDemandeur();
+        return ResponseEntity.status(HttpStatus.OK).body(confirmedDemandes);
+    }
 
 }
