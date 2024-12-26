@@ -20,7 +20,7 @@ public class DemandeDTO {
     private Date dateDisponible;
     private String lieu;
     private DemandeurDTO demandeur;
-    private String emailDemandeur; // Ajout de l'email du demandeur
+    private String emailDemandeur;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

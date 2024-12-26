@@ -26,12 +26,10 @@ public class DemandeMapperImpl implements IMapper<Demande, DemandeDTO> {
                 .description(entity.getDescription())
                 .dateDisponible(entity.getDateDisponible())
                 .lieu(entity.getLieu())
-                .emailDemandeur(entity.getDemandeur().getEmail()) // Inclure l'email du demandeur
-
+                .emailDemandeur(entity.getDemandeur().getEmail())
                 .demandeur(DemandeurDTO.builder()
                         .id(entity.getDemandeur().getId())
                         .name(entity.getDemandeur().getNom())
-
                         .build())
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())

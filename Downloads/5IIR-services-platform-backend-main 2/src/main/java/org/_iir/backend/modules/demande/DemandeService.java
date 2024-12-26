@@ -109,16 +109,13 @@ public class DemandeService implements IService<Demande, DemandeDTO, DemandeREQ,
                 .map(mapper::toDTO);
     }
     public List<DemandeDTO> findDemandesByAuthenticatedDemandeur() {
-        // Récupérer l'utilisateur connecté
         Demandeur authenticatedDemandeur = (Demandeur) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        // Vérifier si l'utilisateur est valide
         if (authenticatedDemandeur == null || authenticatedDemandeur.getId() == null) {
             logger.error("Demandeur non authentifié ou ID non trouvé.");
             throw new OwnNotFoundException("Utilisateur non authentifié.");
         }
 
-        // Récupérer les demandes pour ce demandeur
         return repository.findByDemandeurId(authenticatedDemandeur.getId())
                 .stream()
                 .map(mapper::toDTO)
