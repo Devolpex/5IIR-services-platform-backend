@@ -1,6 +1,7 @@
 package org._iir.backend.modules.offre;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org._iir.backend.exception.OwnNotFoundException;
 import org._iir.backend.interfaces.IService;
@@ -13,6 +14,7 @@ import org._iir.backend.modules.service.ServiceRepository;
 import org._iir.backend.modules.user.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -146,6 +148,19 @@ public class OffreServiceImpl implements IService<Offre, OffreDTO, OffreREQ, Off
     public Page<OffreDTO> findPage(Pageable pageable) {
         return offreRepository.findAll(pageable)
                 .map(offreMapper::toDTO);
+    }
+    public List<OffreDTO> findOffersByAuthenticatedPrestataire() {
+        Prestataire authenticatedPrestataire = (Prestataire) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (authenticatedPrestataire == null || authenticatedPrestataire.getId() == null) {
+            log.error("Prestataire non authentifié ou ID non trouvé.");
+            throw new OwnNotFoundException("Utilisateur non authentifié.");
+        }
+
+        return offreRepository.findByPrestataireId(authenticatedPrestataire.getId())
+                .stream()
+                .map(offreMapper::toDTO)
+                .collect(Collectors.toList());
     }
 
 }

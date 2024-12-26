@@ -77,5 +77,11 @@ public class OffreController {
         OffreDTO offre = service.findById(id);
         return ResponseEntity.status(HttpStatus.OK).body(offre);
     }
+    @GetMapping("/my-offers")
+    @PreAuthorize("hasAuthority('PRESTATAIRE')")
+    public ResponseEntity<List<OffreDTO>> getMyOffers() {
+        List<OffreDTO> offres = service.findOffersByAuthenticatedPrestataire();
+        return ResponseEntity.status(HttpStatus.OK).body(offres);
+    }
 
 }
